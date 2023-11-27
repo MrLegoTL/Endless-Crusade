@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
     public void OnDash(InputAction.CallbackContext context)
     {
         
-        if (canRoll)
+        if (canRoll && grounded)
         {
             StartCoroutine(Roll());
         }
@@ -170,10 +170,12 @@ public class PlayerController : MonoBehaviour
         if (context.started && canJump)
         {
             Jump();
+            
         }
         else if (context.canceled)
         {
             isJumping = false;
+            
         }
 
 
@@ -196,6 +198,7 @@ public class PlayerController : MonoBehaviour
         //Verifica que el player esta tocando el suelo  y si esta dentro del Coyote Time
         if (grounded || coyoteTimeCounter > 0 )
         {
+            
             //reseteamos la velocidad vertical actual
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0f);
 
@@ -216,6 +219,7 @@ public class PlayerController : MonoBehaviour
         {
             // No está tocando el suelo, pero se intenta saltar
             isJumping = true;
+            
         }
         //Disminuye el contador de Coyote Time
         coyoteTimeCounter -= Time.deltaTime;
