@@ -11,16 +11,18 @@ public class PlayerController : MonoBehaviour
     private bool isFancingRight = true;
     public bool canMove = true;
 
-    [Header("Dash")]
-    public float dashSpeed;
-    public float dashTime;
-    private bool canDash = true;
-   
+    [Header("Roll")]
+    public float rollSpeed;
+    public float rollTime;
+    public bool canRoll = true;
+    //public float dashCooldown;
+
 
 
 
 
     [Header("Jump Settings")]
+    public bool canJump = true;
     public bool jump = false;
     public float jumpForce = 0.8f;
     public float coyoteTime = 0.2f;
@@ -68,15 +70,15 @@ public class PlayerController : MonoBehaviour
         FeedAnimation();
         
 
-        //Disminuye el contador de Coyote Time
-        coyoteTimeCounter-= Time.deltaTime;
+        ////Disminuye el contador de Coyote Time
+        //coyoteTimeCounter-= Time.deltaTime;
 
-        // Si se está saltando y no se está en el suelo, aplica la técnica de Jump Hang Time
-        if (isJumping && !grounded)
-        {
-            // Inicia la corutina de Jump Hang Time
-            StartCoroutine(JumpHangTimeCoroutine());
-        }
+        //// Si se está saltando y no se está en el suelo, aplica la técnica de Jump Hang Time
+        //if (isJumping && !grounded)
+        //{
+        //    // Inicia la corutina de Jump Hang Time
+        //    StartCoroutine(JumpHangTimeCoroutine());
+        //}
 
 
     }
@@ -101,23 +103,26 @@ public class PlayerController : MonoBehaviour
     public void OnDash(InputAction.CallbackContext context)
     {
         
-        if (canDash)
+        if (canRoll)
         {
-            StartCoroutine(Dash());
+            StartCoroutine(Roll());
         }
     }
 
 
-    private IEnumerator Dash()
+    private IEnumerator Roll()
     {
         canMove = false;
-        canDash = false;
-        rigidBody.velocity = new Vector2(dashSpeed * transform.localScale.x, 0f);
+        canRoll = false;
+        canJump = false;
+        rigidBody.velocity = new Vector2(rollSpeed * transform.localScale.x, 0f);
 
-        yield return new WaitForSeconds(dashTime);
+        yield return new WaitForSeconds(rollTime);
         canMove = true;
-        canDash = true;
-        // yield return new WaitForSeconds(dashingCooldown);
+        canRoll = true;
+        canJump=true;
+       // yield return new WaitForSeconds(dashCooldown);
+       
 
     }
 
@@ -127,9 +132,17 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireCube(groundCheck.position, sizeGroundCheck);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "DamageZone")
+        {
+            Dead();
+        }
+    }
     private void OnTriggerExit2D(Collider2D collision)
     {
         //si el objetos colisionado es un enemigo 
+
         if (collision.tag == "Enemy")
         {
             //indicamos al jugador que muera
@@ -154,7 +167,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && canJump)
         {
             Jump();
         }
@@ -181,7 +194,7 @@ public class PlayerController : MonoBehaviour
 
 
         //Verifica que el player esta tocando el suelo  y si esta dentro del Coyote Time
-        if (grounded || coyoteTimeCounter > 0)
+        if (grounded || coyoteTimeCounter > 0 )
         {
             //reseteamos la velocidad vertical actual
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0f);
@@ -203,6 +216,15 @@ public class PlayerController : MonoBehaviour
         {
             // No está tocando el suelo, pero se intenta saltar
             isJumping = true;
+        }
+        //Disminuye el contador de Coyote Time
+        coyoteTimeCounter -= Time.deltaTime;
+
+        // Si se está saltando y no se está en el suelo, aplica la técnica de Jump Hang Time
+        if (isJumping && !grounded)
+        {
+            // Inicia la corutina de Jump Hang Time
+            StartCoroutine(JumpHangTimeCoroutine());
         }
 
 
@@ -267,7 +289,7 @@ public class PlayerController : MonoBehaviour
         //le transmito el valor absoluto de la velocidad en el eje x
         animator.SetFloat("Velocity", Mathf.Abs(rigidBody.velocity.x));
 
-        animator.SetBool("Dash", !canMove);
+        animator.SetBool("Roll", !canMove);
 
        
 
