@@ -17,13 +17,13 @@ public class PlayerController : MonoBehaviour
     public bool canRoll = true;
     //public float dashCooldown;
 
-
-
+    [Header("Attack")]
+    public bool canAttack=true;
+    public float attackTime;
 
 
     [Header("Jump Settings")]
     public bool canJump = true;
-    public bool jump = false;
     public float jumpForce = 0.8f;
     public float coyoteTime = 0.2f;
     public float coyoteTimeCounter;
@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     public bool grounded = false;
     //limite de muerte
     public float deadlimit = -1.5f;
+    public GameObject fogDeadLimit;
 
 
     //[Header("Movement")]
@@ -71,7 +72,7 @@ public class PlayerController : MonoBehaviour
         
 
         ////Disminuye el contador de Coyote Time
-        //coyoteTimeCounter-= Time.deltaTime;
+        coyoteTimeCounter-= Time.deltaTime;
 
         //// Si se está saltando y no se está en el suelo, aplica la técnica de Jump Hang Time
         //if (isJumping && !grounded)
@@ -86,7 +87,7 @@ public class PlayerController : MonoBehaviour
     public void Movement()
     {
         // si esta desactivado el canMove, no hacemos nada en este m�todo
-        if (!canMove) return;
+        //if (!canMove) return;
         if (canMove)
         {
             rigidBody.velocity = new Vector2(horizontal * speed, rigidBody.velocity.y);
@@ -99,7 +100,39 @@ public class PlayerController : MonoBehaviour
                 Flip();
             }
         }
+        else
+        {
+
+        }
     }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if ( canAttack)
+        {
+            canMove = false;
+            StartCoroutine(Attack());
+            canMove = true;
+
+        }
+    }
+
+    private IEnumerator Attack()
+    {
+        
+        canAttack = false;
+        canJump = false;
+        yield return new WaitForSeconds(attackTime);
+        canAttack= true;
+        canJump = true;
+
+
+
+    }
+
+
+
+
     public void OnDash(InputAction.CallbackContext context)
     {
         
@@ -175,7 +208,7 @@ public class PlayerController : MonoBehaviour
         else if (context.canceled)
         {
             isJumping = false;
-            
+
         }
 
 
@@ -196,7 +229,7 @@ public class PlayerController : MonoBehaviour
 
 
         //Verifica que el player esta tocando el suelo  y si esta dentro del Coyote Time
-        if (grounded || coyoteTimeCounter > 0 )
+        if (grounded || coyoteTimeCounter > 0)
         {
             
             //reseteamos la velocidad vertical actual
@@ -222,34 +255,34 @@ public class PlayerController : MonoBehaviour
             
         }
         //Disminuye el contador de Coyote Time
-        coyoteTimeCounter -= Time.deltaTime;
+        //coyoteTimeCounter -= Time.deltaTime;
 
-        // Si se está saltando y no se está en el suelo, aplica la técnica de Jump Hang Time
-        if (isJumping && !grounded)
-        {
-            // Inicia la corutina de Jump Hang Time
-            StartCoroutine(JumpHangTimeCoroutine());
-        }
+        //// Si se está saltando y no se está en el suelo, aplica la técnica de Jump Hang Time
+        //if (isJumping && !grounded)
+        //{
+        //    // Inicia la corutina de Jump Hang Time
+        //    StartCoroutine(JumpHangTimeCoroutine());
+        //}
 
 
 
 
     }
 
-    IEnumerator JumpHangTimeCoroutine()
-    {
-        // Reduce la gravedad para simular el Jump Hang Time
-        rigidBody.gravityScale = 0.5f;
+    //IEnumerator JumpHangTimeCoroutine()
+    //{
+    //    // Reduce la gravedad para simular el Jump Hang Time
+    //    rigidBody.gravityScale = 0.5f;
 
-        // Espera el tiempo de hang time
-        yield return new WaitForSeconds(hangTimeDuration);
+    //    // Espera el tiempo de hang time
+    //    yield return new WaitForSeconds(hangTimeDuration);
 
-        // Restaura la gravedad
-        rigidBody.gravityScale = 1f;
+    //    // Restaura la gravedad
+    //    rigidBody.gravityScale = 1f;
 
-        // Establece que el jugador ya no está en proceso de salto
-        isJumping = false;
-    }
+    //    // Establece que el jugador ya no está en proceso de salto
+    //    isJumping = false;
+    //}
 
 
 
@@ -268,23 +301,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    /*public void Movement()
-    {
-        // si esta desactivado el autoMove, no hacemos nada en este m�todo
-        if (!autoMove) return;
-
-        //almaceno la velocidad actual del rigidbody en una variable temporal
-        Vector2 tempVelocity = rigidBody.velocity;
-
-        //modificamos el valor x (horizontal) par aproximarlo a la velociadad objetivo, mediante una aceleracion progresiva
-        //deberemos multiplicar la aceleracion por el delta time, para que se aplique la aceleraci�n correspondiente
-        //a la fracci�n de tiempo transcurrida desde el �ltimo frame
-        //de esta forma la aceleraci�n ser� igual independientemente de los FPS a los que se renderice el juego
-        tempVelocity.x = Mathf.MoveTowards(tempVelocity.x, maxSpeed, acceleration * Time.deltaTime);
-
-        //asignamos la velocidad calculada
-        rigidBody.velocity = tempVelocity;
-    }*/
+   
 
     private void FeedAnimation()
     {
@@ -293,7 +310,9 @@ public class PlayerController : MonoBehaviour
         //le transmito el valor absoluto de la velocidad en el eje x
         animator.SetFloat("Velocity", Mathf.Abs(rigidBody.velocity.x));
 
-        animator.SetBool("Roll", !canMove);
+        animator.SetBool("Roll", !canRoll);
+
+        animator.SetBool("Attack", !canAttack);
 
        
 
@@ -320,6 +339,10 @@ public class PlayerController : MonoBehaviour
     private void CheckDeadLimit()
     {
         if(transform.position.y <=deadlimit) Dead();
+        if(transform.position.x <= fogDeadLimit.transform.position.x )
+        {
+            Dead();
+        }
     }
 
 }
