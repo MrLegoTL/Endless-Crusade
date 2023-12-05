@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class AttackManager : MonoBehaviour
 {
@@ -11,13 +12,24 @@ public class AttackManager : MonoBehaviour
     private float areaAttack;
     [SerializeField]
     private float damageAttack;
+    private PlayerController playerData;
 
+
+    private void Start()
+    {
+        playerData.animator = GetComponent<Animator>();
+    }
     private void Update()
     {
         if (Input.GetButtonDown("Fire1"))
         {
             Attack();
         }
+    }
+
+    private void InAttack(InputAction.CallbackContext context)
+    {
+        
     }
 
     private void Attack()

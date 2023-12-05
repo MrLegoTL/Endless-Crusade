@@ -73,9 +73,7 @@ public class PlayerController : MonoBehaviour
         
 
         ////Disminuye el contador de Coyote Time
-        coyoteTimeCounter-= Time.deltaTime;
-
-      
+        coyoteTimeCounter-= Time.deltaTime;    
 
 
     }
@@ -96,26 +94,37 @@ public class PlayerController : MonoBehaviour
                 Flip();
             }
         }
-        else
-        {
-
-        }
+       
     }
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (canAttack)
+        if (context.performed)
         {
-            Attack();
 
+            if (canAttack)
+            {
+                StartCoroutine(Attack());
+            }
+             
+            
         }
+        
+        
+        //if ( canAttack)
+        //{
+        //    Attack();
+
+        //}
     }
 
     /// <summary>
     /// Metodo para el ataque de player
     /// </summary>
-    private void Attack()
+    private IEnumerator Attack()
     {
+        canMove = false;
+        canAttack = false;
         Collider2D[] objects = Physics2D.OverlapCircleAll(attackManager.position, areaAttack);
 
         foreach (Collider2D collider in objects)
@@ -125,7 +134,11 @@ public class PlayerController : MonoBehaviour
                 collider.transform.GetComponent<Enemy>().TakeDamage(damageAttack);
             }
         }
+        yield return new WaitForSeconds(1);
+        canAttack = true;
+        canMove = true;
     }
+
 
     public void OnDash(InputAction.CallbackContext context)
     {
@@ -269,10 +282,7 @@ public class PlayerController : MonoBehaviour
             // No está tocando el suelo, pero se intenta saltar
             isJumping = true;
             
-        }
-     
-
-
+        }   
 
 
     }
@@ -301,14 +311,13 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Grounded", grounded);
         //le transmito el valor absoluto de la velocidad en el eje x
         animator.SetFloat("Velocity", Mathf.Abs(rigidBody.velocity.x));
-
         animator.SetBool("Roll", !canRoll);
-        animator.SetBool("Attack", true);
-        animator.SetTrigger("AttackPlayer");
+        animator.SetBool("Attack", !canAttack);
 
-        
 
-       
+
+
+
 
     }
 

@@ -7,10 +7,12 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float enemyHealth;
     private Animator animator;
+    private BoxCollider2D enemyCollider;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        enemyCollider = GetComponent<BoxCollider2D>();
     }
 
     public void TakeDamage(float dmg)
@@ -24,7 +26,17 @@ public class Enemy : MonoBehaviour
 
     void EnemyDeath()
     {
-        Destroy(gameObject);
+       animator.SetTrigger("DeathEnemy");
+
+        DisableColliderEnemy();
+    }
+
+    void DisableColliderEnemy()
+    {
+        if(enemyCollider != null)
+        {
+            enemyCollider.enabled = false;
+        }
     }
 
 }
