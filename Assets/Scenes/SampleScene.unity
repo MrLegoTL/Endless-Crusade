@@ -5164,7 +5164,7 @@ MonoBehaviour:
   target: {fileID: 826415011}
   followX: 1
   offsetX: 1
-  followY: 0
+  followY: 1
   offsetY: 0
 --- !u!1 &527954245
 GameObject:
@@ -5305,7 +5305,7 @@ Transform:
   m_GameObject: {fileID: 826415008}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.007, y: -0.376, z: 0}
+  m_LocalPosition: {x: -1.776, y: -0.376, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5329,12 +5329,12 @@ MonoBehaviour:
   speed: 2
   canMove: 1
   rollSpeed: 3
-  rollTime: 0.6
+  rollTime: 0.7
   canRoll: 1
   isInvincible: 0
   attackManager: {fileID: 1552591285}
   areaAttack: 0.12
-  damageAttack: 100
+  damageAttack: 50
   canAttack: 1
   canJump: 1
   jumpForce: 2.5
@@ -6161,7 +6161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ce3d1a0e33d59849bb0315d7214c511, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyHealth: 180
+  enemyHealth: 100
 --- !u!212 &1257234700
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6208,7 +6208,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.56, y: 1.03}
+  m_Size: {x: 0.58, y: 0.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -6249,10 +6249,10 @@ BoxCollider2D:
   m_Offset: {x: -0.0923672, y: -0.21112779}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.58, y: 0.6}
+    newSize: {x: 0.58, y: 0.6}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0

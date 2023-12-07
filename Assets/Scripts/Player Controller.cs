@@ -82,8 +82,7 @@ public class PlayerController : MonoBehaviour
     {
         // si esta desactivado el canMove, no hacemos nada en este m�todo
         //if (!canMove) return;
-        if (canMove)
-        {
+       
             rigidBody.velocity = new Vector2(horizontal * speed, rigidBody.velocity.y);
             if (!isFancingRight && horizontal > 0f)
             {
@@ -93,7 +92,7 @@ public class PlayerController : MonoBehaviour
             {
                 Flip();
             }
-        }
+        
        
     }
 
@@ -157,6 +156,7 @@ public class PlayerController : MonoBehaviour
         canJump = false;
         isInvincible = true;
         rigidBody.velocity = new Vector2(rollSpeed * transform.localScale.x, 0f);
+        
 
         yield return new WaitForSeconds(rollTime);
         isInvincible = false;
@@ -222,7 +222,14 @@ public class PlayerController : MonoBehaviour
     
     public void Move(InputAction.CallbackContext context)
     {
+        if (canMove)
+        {
+
         horizontal=context.ReadValue<Vector2>().x;
+        }else 
+        {
+            horizontal = 0;
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context)
