@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    Enemy enemy;
     [Header("Move")]
     private float horizontal;
     public float speed;
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float damageAttack;
     public bool canAttack = true;
+    public bool canCombo = false;
 
     [Header("Jump Settings")]
     public bool canJump = true;
@@ -49,6 +51,8 @@ public class PlayerController : MonoBehaviour
     public float deadlimit = -1.5f;
     public GameObject fogDeadLimit;
 
+    [SerializeField]
+    private float playerHealth;
 
    
 
@@ -60,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-
+        enemy = GetComponent<Enemy>();
     }
 
     // Update is called once per frame
@@ -98,15 +102,20 @@ public class PlayerController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && !canCombo)
         {
 
             if (canAttack)
             {
                 StartCoroutine(Attack());
             }
+            
              
             
+        }
+        else if(context.performed && canCombo)
+        {
+            animator.SetTrigger("Combo");
         }
         
         
@@ -124,16 +133,20 @@ public class PlayerController : MonoBehaviour
     {
         canMove = false;
         canAttack = false;
+        canCombo = true;
         Collider2D[] objects = Physics2D.OverlapCircleAll(attackManager.position, areaAttack);
 
         foreach (Collider2D collider in objects)
         {
             if (collider.CompareTag("Enemy"))
-            {
+            {                
                 collider.transform.GetComponent<Enemy>().TakeDamage(damageAttack);
+                
             }
         }
-        yield return new WaitForSeconds(1);
+      
+        yield return new WaitForSeconds(1.5f);
+        canCombo = false;
         canAttack = true;
         canMove = true;
     }
@@ -294,6 +307,31 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void OnAirAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed )
+        {
+            
+            AirAttack();
+        }
+    }
+    void AirAttack()
+    {
+        if (!grounded)
+        {
+            canMove = false;
+
+            animator.SetTrigger("AirAttack");
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0f);
+            rigidBody.AddForce(Vector2.down * jumpForce, ForceMode2D.Impulse);
+        }
+        else
+        {
+            canMove = true;
+        }
+       
+    }
+
 
 
     private void EvaluatedGrounded()
@@ -350,6 +388,15 @@ public class PlayerController : MonoBehaviour
     {
         if(transform.position.y <=deadlimit) Dead();
         if(transform.position.x <= fogDeadLimit.transform.position.x )
+        {
+            Dead();
+        }
+    }
+
+    public void TakeDamage(float dmg)
+    {
+        playerHealth -= dmg;
+        if(playerHealth <= 0) 
         {
             Dead();
         }

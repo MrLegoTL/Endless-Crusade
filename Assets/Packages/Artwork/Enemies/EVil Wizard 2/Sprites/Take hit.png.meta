@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -121,7 +121,70 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Take hit_0
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 83
+        width: 45
+        height: 87
+      alignment: 9
+      pivot: {x: 0.5, y: 0.54}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 061f443103633fe489fbce868e285d02
+      internalID: 1846469760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Take hit_1
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 83
+        width: 34
+        height: 86
+      alignment: 9
+      pivot: {x: 0.53, y: 0.54}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b88d50c65fc48943b38e23fd0ae1f6d
+      internalID: 1854517601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Take hit_2
+      rect:
+        serializedVersion: 2
+        x: 608
+        y: 83
+        width: 35
+        height: 80
+      alignment: 9
+      pivot: {x: 0.53, y: 0.6}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93daac80bc840fe4997749eea78fb002
+      internalID: 786363385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -132,7 +195,10 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Take hit_0: 1846469760
+      Take hit_1: 1854517601
+      Take hit_2: 786363385
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

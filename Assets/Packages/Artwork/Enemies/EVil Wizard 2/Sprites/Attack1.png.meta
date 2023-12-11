@@ -123,15 +123,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Attack1_9
+      name: Attack1_8
       rect:
         serializedVersion: 2
         x: 1859
         y: 83
         width: 79
         height: 120
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.3, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -144,10 +144,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack1_6
+      name: Attack1_5
       rect:
         serializedVersion: 2
-        x: 1109
+        x: 1111
         y: 83
         width: 127
         height: 115
@@ -168,12 +168,12 @@ TextureImporter:
       name: Attack1_7
       rect:
         serializedVersion: 2
-        x: 1609
+        x: 1610
         y: 83
         width: 127
         height: 141
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.2, y: 0.33}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -186,15 +186,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack1_15
+      name: Attack1_6
       rect:
         serializedVersion: 2
-        x: 1359
-        y: 83
+        x: 1361
+        y: 85
         width: 127
         height: 120
       alignment: 9
-      pivot: {x: 0.5, y: 0.2}
+      pivot: {x: 0.2, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -308,7 +308,6 @@ TextureImporter:
       Attack1_12: -1864061463
       Attack1_13: 44944120
       Attack1_14: -1587572420
-      Attack1_15: -1848458463
       Attack1_16: -1069793344
       Attack1_17: -82000488
       Attack1_18: 914871066
@@ -330,9 +329,10 @@ TextureImporter:
       Attack1_36: -236648773
       Attack1_37: -1212529184
       Attack1_4: 642397540
-      Attack1_6: -89536220
+      Attack1_5: -89536220
+      Attack1_6: -1848458463
       Attack1_7: -2112918894
-      Attack1_9: -1585666850
+      Attack1_8: -1585666850
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf496520bbc5566478da408c02c25384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  columns: 36
-  rows: 12
+  columns: 38
+  rows: 18
   grid: {fileID: 1715408628930275429}
 --- !u!1 &2602664098145947924
 GameObject:
