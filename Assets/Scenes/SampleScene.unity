@@ -5305,7 +5305,7 @@ Transform:
   m_GameObject: {fileID: 826415008}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.294, y: 0.928, z: 0}
+  m_LocalPosition: {x: 0.13, y: -0.33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5337,6 +5337,7 @@ MonoBehaviour:
   damageAttack: 20
   canAttack: 1
   canCombo: 0
+  attackRate: 2
   canJump: 1
   jumpForce: 2.5
   coyoteTime: 0.2
@@ -5474,7 +5475,7 @@ Animator:
   m_GameObject: {fileID: 826415008}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0e12fbe3d0c80314e97da4a368b19918, type: 2}
+  m_Controller: {fileID: 9100000, guid: 100b3170c2aa1cd4e8b805d2c5b373c5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -5975,7 +5976,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1100089919
 Transform:
   m_ObjectHideFlags: 0
@@ -6182,7 +6183,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!50 &1257234695
 Rigidbody2D:
   serializedVersion: 4
@@ -6218,8 +6219,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1257234694}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.094, y: -0.173, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.672, y: -0.148, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6227,7 +6228,7 @@ Transform:
   - {fileID: 1902716910}
   - {fileID: 1100089919}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1257234698
 Animator:
   serializedVersion: 5
@@ -6262,10 +6263,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyHealth: 100
+  rb2D: {fileID: 0}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
   isHurt: 0
   attackManager: {fileID: 1902716910}
-  areaAttack: 0.2
-  damageEnemyAttack: 0
+  attackArea: 0.2
+  attackDamage: 20
 --- !u!212 &1257234700
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6624,7 +6629,7 @@ Transform:
   m_GameObject: {fileID: 1552591284}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.162, y: 0, z: 0}
+  m_LocalPosition: {x: 0.113, y: 0.022, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6645,7 +6650,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1902716910
 Transform:
   m_ObjectHideFlags: 0
@@ -6655,7 +6660,7 @@ Transform:
   m_GameObject: {fileID: 1902716909}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.799, y: 0, z: 0}
+  m_LocalPosition: {x: 0.716, y: 0.015, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

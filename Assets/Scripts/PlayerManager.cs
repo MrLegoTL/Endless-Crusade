@@ -1,9 +1,9 @@
-Ôªøusing System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerManager : MonoBehaviour
 {
     Enemy enemy;
     [Header("Move")]
@@ -29,10 +29,6 @@ public class PlayerController : MonoBehaviour
     public bool canAttack = true;
     public bool canCombo = false;
 
-    public float attackRate = 2f;
-    float nextAttackTime = 0f;
-  
-
     [Header("Jump Settings")]
     public bool canJump = true;
     public float jumpForce = 0.8f;
@@ -40,7 +36,7 @@ public class PlayerController : MonoBehaviour
     public float coyoteTimeCounter;
     private bool isJumping = false;
     public float newGravity;
-    
+
 
 
     public Rigidbody2D rigidBody;
@@ -58,7 +54,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float playerHealth;
 
-   
+
 
 
     //referencia al animator
@@ -78,69 +74,45 @@ public class PlayerController : MonoBehaviour
         Movement();
         CheckDeadLimit();
         FeedAnimation();
-        
+
 
         ////Disminuye el contador de Coyote Time
-        coyoteTimeCounter-= Time.deltaTime;
+        coyoteTimeCounter -= Time.deltaTime;
 
-       
 
     }
 
     public void Movement()
     {
-        // si esta desactivado el canMove, no hacemos nada en este mÔøΩtodo
+        // si esta desactivado el canMove, no hacemos nada en este m?todo
         //if (!canMove) return;
-       
-            rigidBody.velocity = new Vector2(horizontal * speed, rigidBody.velocity.y);
-            if (!isFancingRight && horizontal > 0f)
-            {
-                Flip();
-            }
-            else if (isFancingRight && horizontal < 0f)
-            {
-                Flip();
-            }
-        
-       
+
+        rigidBody.velocity = new Vector2(horizontal * speed, rigidBody.velocity.y);
+        if (!isFancingRight && horizontal > 0f)
+        {
+            Flip();
+        }
+        else if (isFancingRight && horizontal < 0f)
+        {
+            Flip();
+        }
+
+
     }
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if(Time.time >= nextAttackTime)
+        if (context.performed)
         {
-            if (context.performed)
-            {
-                Golpe();
-                nextAttackTime = Time.time+1f/attackRate;
-
-            }
-        }
-        
-        //if (context.performed )
-        //{
-
-        //    if (canAttack)
-        //    {
-        //        StartCoroutine(Attack());
-        //    }
-            
-             
-            
-        //}
-      
-        
-    
+            Golpe();
+        }                      
     }
 
     /// <summary>
     /// Metodo para el ataque de player
     /// </summary>
-    /// 
     void Golpe()
     {
-        animator.SetTrigger("Golpe");
-
         Collider2D[] objects = Physics2D.OverlapCircleAll(attackManager.position, areaAttack);
 
         foreach (Collider2D collider in objects)
@@ -148,39 +120,18 @@ public class PlayerController : MonoBehaviour
             if (collider.CompareTag("Enemy"))
             {
                 collider.transform.GetComponent<Enemy>().TakeDamage(damageAttack);
+
             }
         }
-
-
     }
-    //private IEnumerator Attack()
-    //{
-    //    canMove = false;
-    //    canAttack = false;
-
-    //    Collider2D[] objects = Physics2D.OverlapCircleAll(attackManager.position, areaAttack);
-
-    //    foreach (Collider2D collider in objects)
-    //    {
-    //        if (collider.CompareTag("Enemy"))
-    //        {                
-    //            collider.transform.GetComponent<Enemy>().TakeDamage(damageAttack);
-
-    //        }
-    //    }
-
-    //    yield return new WaitForSeconds(1f);
-
-    //    canAttack = true;
-    //    canMove = true;
-    //}
+   
 
 
 
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        
+
         if (canRoll && grounded)
         {
             StartCoroutine(Roll());
@@ -195,15 +146,15 @@ public class PlayerController : MonoBehaviour
         canJump = false;
         isInvincible = true;
         rigidBody.velocity = new Vector2(rollSpeed * transform.localScale.x, 0f);
-        
+
 
         yield return new WaitForSeconds(rollTime);
         isInvincible = false;
         canMove = true;
         canRoll = true;
-        canJump=true;
-       // yield return new WaitForSeconds(dashCooldown);
-       
+        canJump = true;
+        // yield return new WaitForSeconds(dashCooldown);
+
 
     }
 
@@ -219,7 +170,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "DamageZone" && !isInvincible)
+        if (collision.tag == "DamageZone" && !isInvincible)
         {
             Dead();
         }
@@ -231,7 +182,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-       else if (collision.collider.CompareTag("Enemy") && !isInvincible)
+        else if (collision.collider.CompareTag("Enemy") && !isInvincible)
         {
             //indicamos al jugador que muera
             Dead();
@@ -249,23 +200,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-   
+
 
     private void Flip()
     {
         isFancingRight = !isFancingRight;
-        Vector3 localScale  =transform.localScale;
+        Vector3 localScale = transform.localScale;
         localScale.x *= -1;
         transform.localScale = localScale;
     }
-    
+
     public void Move(InputAction.CallbackContext context)
     {
         if (canMove)
         {
 
-        horizontal=context.ReadValue<Vector2>().x;
-        }else 
+            horizontal = context.ReadValue<Vector2>().x;
+        }
+        else
         {
             horizontal = 0;
         }
@@ -273,11 +225,11 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        
+
         if (context.started && canJump)
         {
             Jump();
-            
+
         }
         else if (context.canceled)
         {
@@ -305,7 +257,7 @@ public class PlayerController : MonoBehaviour
         //Verifica que el player esta tocando el suelo  y si esta dentro del Coyote Time
         if (grounded || coyoteTimeCounter > 0)
         {
-           
+
             //reseteamos la velocidad vertical actual
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0f);
 
@@ -315,7 +267,7 @@ public class PlayerController : MonoBehaviour
             //reinicia el contador de Coyote Time
             coyoteTimeCounter = 0;
 
-            // Establece que el jugador est√° en proceso de salto
+            // Establece que el jugador est· en proceso de salto
             isJumping = true;
 
 
@@ -324,20 +276,20 @@ public class PlayerController : MonoBehaviour
         }
         else //no esta tocando suelo
         {
-          
-            // No est√° tocando el suelo, pero se intenta saltar
+
+            // No est· tocando el suelo, pero se intenta saltar
             isJumping = true;
-            
-        }   
+
+        }
 
 
     }
 
     public void OnAirAttack(InputAction.CallbackContext context)
     {
-        if (context.performed )
+        if (context.performed)
         {
-            
+
             AirAttack();
         }
     }
@@ -355,7 +307,7 @@ public class PlayerController : MonoBehaviour
         {
             canMove = true;
         }
-       
+
     }
 
 
@@ -364,17 +316,17 @@ public class PlayerController : MonoBehaviour
     {
         grounded = Physics2D.OverlapBox(groundCheck.position, sizeGroundCheck, 0f, groundLayer);
         rigidBody.gravityScale = grounded ? 0 : newGravity;
-        
+
         if (grounded)
         {
             //Actualiza el contador cuando el player toca el suelo
             coyoteTimeCounter = coyoteTime;
-            
+
         }
 
     }
 
-   
+
 
     private void FeedAnimation()
     {
@@ -395,11 +347,11 @@ public class PlayerController : MonoBehaviour
     public void Dead()
     {
         //si el jugador ya estaba muerto no hacemos nada
-        if(isDead) return;
+        if (isDead) return;
         //Indicaos que el jugador ha muerto
         isDead = true;
         //dejamos de aplicar movimiento
-        canMove= false;
+        canMove = false;
         //detenemos toda velocidad residual
         rigidBody.velocity = Vector2.zero;
         //Indicamos al animator que ejecute la animcaion de muerte
@@ -412,8 +364,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void CheckDeadLimit()
     {
-        if(transform.position.y <=deadlimit) Dead();
-        if(transform.position.x <= fogDeadLimit.transform.position.x )
+        if (transform.position.y <= deadlimit) Dead();
+        if (transform.position.x <= fogDeadLimit.transform.position.x)
         {
             Dead();
         }
@@ -422,13 +374,12 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(float dmg)
     {
         playerHealth -= dmg;
-        animator.SetTrigger("Hurt");
-
-        if (playerHealth <= 0) 
+        if (playerHealth <= 0)
         {
             Dead();
         }
     }
 
 }
+
 
