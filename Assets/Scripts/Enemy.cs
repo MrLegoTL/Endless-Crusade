@@ -23,7 +23,13 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float attackDamage;
     public float playerDistance;
-
+    [Header("Enemy Second Attack")]
+    [SerializeField]
+    private Transform secondAttackManager;
+    [SerializeField]
+    private float secondAttackArea;
+    [SerializeField]
+    private float secondAttackDamage;
     Transform player;
     private bool seeRight = true;
 
@@ -61,6 +67,19 @@ public class Enemy : MonoBehaviour
         }
 
 
+    }
+    void EnemySecondAttack()
+    {
+        Collider2D[] objects = Physics2D.OverlapCircleAll(secondAttackManager.position, secondAttackArea);
+        foreach (Collider2D collision in objects)
+        {
+
+            if (collision.CompareTag("Player"))
+            {
+                collision.GetComponent<PlayerController>().TakeDamage(secondAttackDamage);
+
+            }
+        }
     }
 
 

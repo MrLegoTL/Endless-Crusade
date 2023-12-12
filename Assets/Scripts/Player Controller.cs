@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float areaAttack;
     [SerializeField]
-    private float damageAttack;
+    public float damageAttack;
 
     [Header("AirAttack")]
     [SerializeField]
@@ -69,7 +69,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float playerHealth;
     [SerializeField]
-    private float playerMaxHealth=100;
+    private float playerMaxHealth;
+    [SerializeField]
+    private HealthBar healthBar;
 
    
 
@@ -83,6 +85,7 @@ public class PlayerController : MonoBehaviour
     {
         enemy = GetComponent<Enemy>();
         playerHealth = playerMaxHealth;
+        healthBar.InitializeHealthBar(playerHealth);
     }
 
     // Update is called once per frame
@@ -453,11 +456,25 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(float dmg)
     {
         playerHealth -= dmg;
+        healthBar.ChangedCurrentHealth(playerHealth);
         animator.SetTrigger("Hurt");
 
         if (playerHealth <= 0) 
         {
             Dead();
+        }
+    }
+
+    public void RestoredHealth(float restoredHealth)
+    {
+        if((playerHealth + restoredHealth) > playerMaxHealth)
+        {
+            playerHealth = playerMaxHealth;
+        }
+        else
+        {
+            playerHealth += restoredHealth;
+            healthBar.ChangedCurrentHealth(playerHealth);
         }
     }
 
