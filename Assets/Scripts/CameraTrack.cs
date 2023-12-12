@@ -36,7 +36,11 @@ public class CameraTrack : MonoBehaviour
         if(player.transform.position.y <= 0)
         {
             followY = false;
-            
+
+        }
+        else
+        {
+            followY = true;
         }
 
     }

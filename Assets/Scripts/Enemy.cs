@@ -134,6 +134,9 @@ public class Enemy : MonoBehaviour
         //Gizmos para areaAttack
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackManager.position, attackArea);
+        //Gizmos para secondareaAttack
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(secondAttackManager.position, secondAttackArea);
     }
 
     //private void OnTriggerEnter2D(Collider2D collision)

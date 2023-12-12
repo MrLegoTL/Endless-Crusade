@@ -73,7 +73,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private HealthBar healthBar;
 
-   
+    [Header("Climb")]
+    [SerializeField]
+    private float climbSpeed;
+    private BoxCollider2D boxCollider2D;
+    private float initialGravity;
+    private bool isClimbing;
+    private float vertical;
+    private Vector2 input;
 
 
     //referencia al animator
@@ -86,6 +93,8 @@ public class PlayerController : MonoBehaviour
         enemy = GetComponent<Enemy>();
         playerHealth = playerMaxHealth;
         healthBar.InitializeHealthBar(playerHealth);
+        boxCollider2D = GetComponent<BoxCollider2D>();
+        initialGravity = rigidBody.gravityScale;
     }
 
     // Update is called once per frame
@@ -100,8 +109,13 @@ public class PlayerController : MonoBehaviour
         ////Disminuye el contador de Coyote Time
         coyoteTimeCounter-= Time.deltaTime;
 
+        input.y = Input.GetAxisRaw("Vertical");
        
 
+    }
+    private void FixedUpdate()
+    {
+        Climb();
     }
 
     public void Movement()
@@ -416,10 +430,18 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Grounded", grounded);
         //le transmito el valor absoluto de la velocidad en el eje x
         animator.SetFloat("Velocity", Mathf.Abs(rigidBody.velocity.x));
+        
         animator.SetBool("Roll", !canRoll);
         animator.SetBool("Attack", !canAttack);
 
-
+        if(Mathf.Abs(rigidBody.velocity.y) > Mathf.Epsilon)
+        {
+            animator.SetFloat("VelocityY", Mathf.Sign(rigidBody.velocity.y));
+        }
+        else
+        {
+            animator.SetFloat("VelocityY", 0);
+        }
 
 
 
@@ -476,6 +498,32 @@ public class PlayerController : MonoBehaviour
             playerHealth += restoredHealth;
             healthBar.ChangedCurrentHealth(playerHealth);
         }
+    }
+
+    //public void OnClimb(InputAction.CallbackContext context)
+    //{
+    //    //vertical = context.ReadValue<Vector2>().y;
+    //    Climb();
+    //}
+    void Climb()
+    {
+        if((input.y !=0 || isClimbing) && (boxCollider2D.IsTouchingLayers(LayerMask.GetMask("Stairs"))))
+        {
+            Vector2 upSpeed = new Vector2(rigidBody.velocity.x, input.y * climbSpeed);
+            rigidBody.velocity = upSpeed;
+            rigidBody.gravityScale = 0;
+            isClimbing = true;
+        }
+        else
+        {
+            rigidBody.gravityScale = initialGravity;
+            isClimbing=false;
+        }
+        if (grounded)
+        {
+            isClimbing = false;
+        }
+        animator.SetBool("isClimbing", isClimbing);
     }
 
 }
