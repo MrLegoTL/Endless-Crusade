@@ -22,13 +22,20 @@ public class Wizard_RunBehaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        rb2D.velocity = new Vector2(moveSpeed, rb2D.velocity.y) * animator.transform.right;
+       
+            rb2D.velocity = new Vector2(moveSpeed, rb2D.velocity.y) * animator.transform.right;
+        
+        
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        rb2D.velocity = new Vector2(0, rb2D.velocity.y);
+       if(enemy.playerDistance <= 2)
+        {
+            rb2D.velocity = new Vector2(0, rb2D.velocity.y);
+        }
+       
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

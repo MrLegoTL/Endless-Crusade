@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
     private float attackArea;
     [SerializeField]
     private float attackDamage;
+    public float playerDistance;
 
     Transform player;
     private bool seeRight = true;
@@ -39,7 +40,7 @@ public class Enemy : MonoBehaviour
     }
     private void Update()
     {
-        float playerDistance = Vector2.Distance(transform.position, player.position);
+          playerDistance = Vector2.Distance(transform.position, player.position);
         animator.SetFloat("PlayerDistance", playerDistance);
     }
     

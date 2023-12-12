@@ -21,11 +21,21 @@ public class PlayerController : MonoBehaviour
 
     [Header("Attack")]
     [SerializeField]
-    private Transform attackManager;
+    private Transform attackManager;    
     [SerializeField]
     private float areaAttack;
     [SerializeField]
     private float damageAttack;
+
+    [Header("AirAttack")]
+    [SerializeField]
+    private Transform airAttackManager;
+    [SerializeField]
+    private float airAreaAttack;
+    [SerializeField]
+    private float airDamageAttack;
+
+
     public bool canAttack = true;
     public bool canCombo = false;
 
@@ -55,8 +65,11 @@ public class PlayerController : MonoBehaviour
     public float deadlimit = -1.5f;
     public GameObject fogDeadLimit;
 
+    [Header("Health")]
     [SerializeField]
     private float playerHealth;
+    [SerializeField]
+    private float playerMaxHealth=100;
 
    
 
@@ -69,6 +82,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         enemy = GetComponent<Enemy>();
+        playerHealth = playerMaxHealth;
     }
 
     // Update is called once per frame
@@ -215,6 +229,9 @@ public class PlayerController : MonoBehaviour
         //Gizmos para areaAttack
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackManager.position, areaAttack);
+        //Gizmos para airAreaAttack
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(airAttackManager.position, airAreaAttack);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -222,6 +239,10 @@ public class PlayerController : MonoBehaviour
         if(collision.tag == "DamageZone" && !isInvincible)
         {
             Dead();
+        }
+        if (collision.CompareTag("PickUp"))
+        {
+            animator.SetTrigger("Health");
         }
     }
 
@@ -346,10 +367,20 @@ public class PlayerController : MonoBehaviour
         if (!grounded)
         {
             canMove = false;
-
+            
             animator.SetTrigger("AirAttack");
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0f);
             rigidBody.AddForce(Vector2.down * jumpForce, ForceMode2D.Impulse);
+
+            Collider2D[] objects = Physics2D.OverlapCircleAll(airAttackManager.position, airAreaAttack);
+
+            foreach (Collider2D collider in objects)
+            {
+                if (collider.CompareTag("Enemy"))
+                {
+                    collider.transform.GetComponent<Enemy>().TakeDamage(airDamageAttack);
+                }
+            }
         }
         else
         {
