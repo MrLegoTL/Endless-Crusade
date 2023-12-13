@@ -50,6 +50,9 @@ public class Enemy : MonoBehaviour
         animator.SetFloat("PlayerDistance", playerDistance);
     }
     
+    /// <summary>
+    /// Metodo para el ataque del enemigo
+    /// </summary>
     void EnemyAttack()
     {
        
@@ -68,6 +71,9 @@ public class Enemy : MonoBehaviour
 
 
     }
+    /// <summary>
+    /// Metodo para el segundo ataque del enemigo
+    /// </summary>
     void EnemySecondAttack()
     {
         Collider2D[] objects = Physics2D.OverlapCircleAll(secondAttackManager.position, secondAttackArea);
@@ -82,7 +88,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Metodo con el que el enemigo recibe daño del player
+    /// </summary>
+    /// <param name="dmg"></param>
     public void TakeDamage(float dmg)
     {
       if(enemyHealth > 0)
@@ -100,6 +109,9 @@ public class Enemy : MonoBehaviour
        }
     }
 
+    /// <summary>
+    /// Metodo para la muerte del enemigo
+    /// </summary>
     void EnemyDeath()
     {
         if(animator != null)
@@ -110,7 +122,9 @@ public class Enemy : MonoBehaviour
 
         DisableColliderEnemy();
     }
-
+    /// <summary>
+    /// Metoddo para desactivar el collider del enemigo cuando muere
+    /// </summary>
     void DisableColliderEnemy()
     {
         if(enemyCollider != null)
@@ -118,6 +132,9 @@ public class Enemy : MonoBehaviour
             enemyCollider.enabled = false;
         }
     }
+    /// <summary>
+    /// Metodo con el que el enemigo mira al player
+    /// </summary>
       public void SeePlayer()
     {
         if((player.position.x > transform.position.x && !seeRight) || (player.position.x < transform.position.x && seeRight))

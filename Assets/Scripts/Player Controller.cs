@@ -34,12 +34,15 @@ public class PlayerController : MonoBehaviour
     private float airAreaAttack;
     [SerializeField]
     private float airDamageAttack;
+    [SerializeField]
+    private bool isAirAttack;
 
 
     public bool canAttack = true;
     public bool canCombo = false;
 
     public float attackRate = 2f;
+    [SerializeField]
     float nextAttackTime = 0f;
   
 
@@ -118,22 +121,33 @@ public class PlayerController : MonoBehaviour
         Climb();
     }
 
+    /// <summary>
+    /// Metodo par ale movimiento del player
+    /// </summary>
     public void Movement()
     {
         // si esta desactivado el canMove, no hacemos nada en este m�todo
-        //if (!canMove) return;
-       
-            rigidBody.velocity = new Vector2(horizontal * speed, rigidBody.velocity.y);
-            if (!isFancingRight && horizontal > 0f)
-            {
-                Flip();
-            }
-            else if (isFancingRight && horizontal < 0f)
-            {
-                Flip();
-            }
+        if (!canMove) return;
+
         
-       
+        rigidBody.velocity = new Vector2(horizontal * speed, rigidBody.velocity.y);
+
+
+
+        
+        
+      
+        if (!isFancingRight && horizontal > 0f)
+        {
+            Flip();
+        }
+        else if (isFancingRight && horizontal < 0f)
+        {
+            Flip();
+        }
+
+
+
     }
 
     public void OnAttack(InputAction.CallbackContext context)
@@ -212,13 +226,16 @@ public class PlayerController : MonoBehaviour
     public void OnDash(InputAction.CallbackContext context)
     {
         
-        if (canRoll && grounded)
+        if (canRoll && grounded && !isAirAttack)
         {
             StartCoroutine(Roll());
         }
     }
 
-
+    /// <summary>
+    /// Corrutina para la animacion de Roll
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Roll()
     {
         canMove = false;
@@ -259,7 +276,13 @@ public class PlayerController : MonoBehaviour
         }
         if (collision.CompareTag("PickUp"))
         {
-            animator.SetTrigger("Health");
+           
+                animator.SetTrigger("Health");
+                
+            
+            
+            
+           
         }
     }
 
@@ -288,7 +311,9 @@ public class PlayerController : MonoBehaviour
     }
 
    
-
+    /// <summary>
+    /// Metodo para girar el spirte del player
+    /// </summary>
     private void Flip()
     {
         isFancingRight = !isFancingRight;
@@ -299,14 +324,10 @@ public class PlayerController : MonoBehaviour
     
     public void Move(InputAction.CallbackContext context)
     {
-        if (canMove)
-        {
+        
 
         horizontal=context.ReadValue<Vector2>().x;
-        }else 
-        {
-            horizontal = 0;
-        }
+        
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -328,6 +349,9 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Metodo para el salto
+    /// </summary>
     public void Jump()
     {
         ////Si no estamos tocando el suelo abandonamos el metedo sin hacer nada
@@ -379,14 +403,19 @@ public class PlayerController : MonoBehaviour
             AirAttack();
         }
     }
+    /// <summary>
+    /// Metodo para el ataque desde arriba
+    /// </summary>
     void AirAttack()
     {
         if (!grounded)
         {
+            isAirAttack = true;
             canMove = false;
             
+            
             animator.SetTrigger("AirAttack");
-            rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0f);
+            rigidBody.velocity = new Vector2(0f, rigidBody.velocity.y);
             rigidBody.AddForce(Vector2.down * jumpForce, ForceMode2D.Impulse);
 
             Collider2D[] objects = Physics2D.OverlapCircleAll(airAttackManager.position, airAreaAttack);
@@ -398,16 +427,17 @@ public class PlayerController : MonoBehaviour
                     collider.transform.GetComponent<Enemy>().TakeDamage(airDamageAttack);
                 }
             }
+            Invoke("RecoverMovement", 1);
         }
-        else
-        {
-            canMove = true;
-        }
+        
+      
        
     }
 
 
-
+    /// <summary>
+    /// Metodo chekear el suelo
+    /// </summary>
     private void EvaluatedGrounded()
     {
         grounded = Physics2D.OverlapBox(groundCheck.position, sizeGroundCheck, 0f, groundLayer);
@@ -423,7 +453,9 @@ public class PlayerController : MonoBehaviour
     }
 
    
-
+    /// <summary>
+    /// Metodo que almacena los parametros de las animaciones
+    /// </summary>
     private void FeedAnimation()
     {
         //indicamos al animator cuando el player se encuentra en contacto con el suelo
@@ -448,6 +480,9 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Metodo para la muerte del player
+    /// </summary>
     public void Dead()
     {
         //si el jugador ya estaba muerto no hacemos nada
@@ -475,11 +510,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Metodo con el que el player recibe daño del enemigo
+    /// </summary>
+    /// <param name="dmg"></param>
     public void TakeDamage(float dmg)
     {
-        playerHealth -= dmg;
-        healthBar.ChangedCurrentHealth(playerHealth);
-        animator.SetTrigger("Hurt");
+        if (!isInvincible)
+        {
+            playerHealth -= dmg;
+            healthBar.ChangedCurrentHealth(playerHealth);
+            animator.SetTrigger("Hurt");
+        }
+        
 
         if (playerHealth <= 0) 
         {
@@ -487,6 +530,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Metodo con el que el player se cura vida
+    /// </summary>
+    /// <param name="restoredHealth"></param>
     public void RestoredHealth(float restoredHealth)
     {
         if((playerHealth + restoredHealth) > playerMaxHealth)
@@ -505,6 +552,10 @@ public class PlayerController : MonoBehaviour
     //    //vertical = context.ReadValue<Vector2>().y;
     //    Climb();
     //}
+
+    /// <summary>
+    /// Metodo con el que player puede subir las escaleras
+    /// </summary>
     void Climb()
     {
         if((input.y !=0 || isClimbing) && (boxCollider2D.IsTouchingLayers(LayerMask.GetMask("Stairs"))))
@@ -513,6 +564,7 @@ public class PlayerController : MonoBehaviour
             rigidBody.velocity = upSpeed;
             rigidBody.gravityScale = 0;
             isClimbing = true;
+            canJump = false;
         }
         else
         {
@@ -522,9 +574,15 @@ public class PlayerController : MonoBehaviour
         if (grounded)
         {
             isClimbing = false;
+            canJump = true;
         }
         animator.SetBool("isClimbing", isClimbing);
     }
 
+     void RecoverMovement()
+    {
+        canMove = true;
+        isAirAttack = false;
+    }
 }
 
