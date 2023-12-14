@@ -89,6 +89,7 @@ public class PlayerController : MonoBehaviour
     //referencia al animator
     public Animator animator;
     public bool isDead = false;
+    public bool isPickUp = false;
     // Start is called before the first frame update
 
     void Start()
@@ -121,19 +122,25 @@ public class PlayerController : MonoBehaviour
         Climb();
     }
 
+    public void Move(InputAction.CallbackContext context)
+    {
+
+
+        horizontal = context.ReadValue<Vector2>().x;
+
+    }
+
     /// <summary>
     /// Metodo par ale movimiento del player
     /// </summary>
     public void Movement()
     {
         // si esta desactivado el canMove, no hacemos nada en este m�todo
-        if (!canMove) return;
+        if (!canMove ) return;
 
         
+      
         rigidBody.velocity = new Vector2(horizontal * speed, rigidBody.velocity.y);
-
-
-
         
         
       
@@ -226,7 +233,7 @@ public class PlayerController : MonoBehaviour
     public void OnDash(InputAction.CallbackContext context)
     {
         
-        if (canRoll && grounded && !isAirAttack)
+        if (canRoll && grounded && !isAirAttack && !isPickUp)
         {
             StartCoroutine(Roll());
         }
@@ -276,14 +283,14 @@ public class PlayerController : MonoBehaviour
         }
         if (collision.CompareTag("PickUp"))
         {
-           
-                animator.SetTrigger("Health");
-                
-            
-            
-            
-           
+            PickUp();
         }
+    }
+    void PickUp()
+    {
+        isPickUp = true;
+        animator.SetTrigger("Health");
+        Invoke("RecoverMovement", 1);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -322,13 +329,7 @@ public class PlayerController : MonoBehaviour
         transform.localScale = localScale;
     }
     
-    public void Move(InputAction.CallbackContext context)
-    {
-        
-
-        horizontal=context.ReadValue<Vector2>().x;
-        
-    }
+   
 
     public void OnJump(InputAction.CallbackContext context)
     {
@@ -583,6 +584,7 @@ public class PlayerController : MonoBehaviour
     {
         canMove = true;
         isAirAttack = false;
+        isPickUp = false;
     }
 }
 

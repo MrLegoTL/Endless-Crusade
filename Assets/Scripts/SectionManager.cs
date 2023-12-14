@@ -4,14 +4,25 @@ using UnityEngine;
 
 public class SectionManager : MonoBehaviour
 {
+   
     //listado de decciones disponibles
-    public Sections[] sectionPrefabs;
+    public Sections[] sectionPrefabsFD;
+    public Sections[] sectionPrefabsFN;
+    public Sections[] sectionPrefabsC;
     //transform  que contendras las secciones generadas
     public Transform sectionContainer;
     //última sección generada
     public Sections currentSection;
     //número de plataformas generadas inicalmente
     public int initialPrewarm = 4;
+    //contador que recoger el numero de plataformas que han aparecido
+    [SerializeField]
+    private int sectionCount = 0;
+    [SerializeField]
+    private Sections[] changeSection;
+    [SerializeField]
+    private bool hasChangedSection = false;
+    
 
     //PATRÓN SINGLENTON
     //Creamos una variable publica y estática
@@ -51,8 +62,54 @@ public class SectionManager : MonoBehaviour
     [ContextMenu("SpawnSectionTest")]
     public void SpawnSection()
     {
-        //Obtenemos una nueva sección del array de forma aleatoria
-        Sections newSection = sectionPrefabs[Random.Range(0, sectionPrefabs.Length)];
+       
+        Sections newSection;
+        newSection = currentSection;
+        if (!hasChangedSection && sectionCount >= 5)
+        {
+            
+           
+            if (Random.Range(0,2)==0)
+            {
+                
+                newSection = sectionPrefabsFN[Random.Range(0, sectionPrefabsFN.Length)];
+                Debug.Log("Ha cambiado a FN");
+                
+            }
+            else if(Random.Range(0,2)==1) 
+            {
+                newSection = sectionPrefabsC[Random.Range(0,sectionPrefabsC.Length)];
+                Debug.Log("Ha cambiado a C");
+
+            }
+            else
+            {
+                //Obtenemos una nueva sección del array de forma aleatoria
+                newSection = sectionPrefabsFD[Random.Range(0, sectionPrefabsFD.Length)];
+                Debug.Log("Sigue en FD");
+            }
+            hasChangedSection = true;
+        }
+        else 
+        {
+            if (!hasChangedSection)
+            {
+                //Obtenemos una nueva sección del array de forma aleatoria
+                newSection = sectionPrefabsFD[Random.Range(0, sectionPrefabsFD.Length)];
+                Debug.Log("Sigue en FD");
+            }
+            
+        }
+        
+        
+            
+        
+        
+        //si el contador de secciones llega a un numero determinado crea una seccion determinada
+        //if (sectionCount == 10)
+        //{
+        //    newSection = changeSection;
+        //}
         // vector para almacenar la desviacion a aplicar para situar la nueva plataforma
         Vector3 nextPositionOffset = Vector3.zero;
         //calculamos el offset utilizando el tamaño de las mitades actual + la mitad siguiente
@@ -63,5 +120,10 @@ public class SectionManager : MonoBehaviour
                                      currentSection.transform.position + nextPositionOffset,
                                      Quaternion.identity,
                                      sectionContainer);
+
+        //Incrementamos el contador de secciones
+        sectionCount++;
+        Debug.Log("Secciones Aparecidas: " + sectionCount);
+        
     }
 }
