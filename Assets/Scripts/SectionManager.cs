@@ -17,7 +17,7 @@ public class SectionManager : MonoBehaviour
     public int initialPrewarm = 4;
     //contador que recoger el numero de plataformas que han aparecido
     [SerializeField]
-    private int sectionCount = 0;
+    public  int sectionCount = 0;
     [SerializeField]
     private Sections changeSection;
     [SerializeField]
@@ -25,7 +25,7 @@ public class SectionManager : MonoBehaviour
     private Sections newSection;
     public Sections intialSection;
     [SerializeField]
-    private int maxSections =10;
+   public int maxSections =10;
   
 
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -14,6 +15,8 @@ public class Enemy : MonoBehaviour
     private BoxCollider2D enemyCollider;
     [SerializeField]
     public bool isHurt=false;
+    [SerializeField]
+    private bool isInvincible=false;
 
     [Header("Enemy Attack")]
     [SerializeField]
@@ -24,7 +27,7 @@ public class Enemy : MonoBehaviour
     private float attackDamage;
     public float playerDistance;
     public float playerDistanceX;
-    private float playerDistanceY;
+    public float playerDistanceY;
     [Header("Enemy Second Attack")]
     [SerializeField]
     private Transform secondAttackManager;
@@ -48,11 +51,12 @@ public class Enemy : MonoBehaviour
     }
     private void Update()
     {
-        playerDistanceX=transform.position.x - player.transform.position.x;
-        playerDistanceY=transform.position.y - player.transform.position.y;
-        
-          playerDistance = Vector2.Distance(transform.position, player.position);
+        playerDistanceY = Mathf.Abs(transform.position.y - player.position.y);
+        playerDistanceX = Mathf.Abs(transform.position.x - player.position.x);
+        //playerDistance = Vector2.Distance(transform.position, player.position);
         animator.SetFloat("PlayerDistance", playerDistanceX);
+        animator.SetFloat("PlayerDistanceY", playerDistanceY);
+      
     }
     
     /// <summary>
@@ -99,18 +103,22 @@ public class Enemy : MonoBehaviour
     /// <param name="dmg"></param>
     public void TakeDamage(float dmg)
     {
-      if(enemyHealth > 0)
+      if(enemyHealth > 0 && !isInvincible)
         {
          enemyHealth -= dmg;
             if(animator != null)
             {
                 animator.SetTrigger("Hurt");
+                StartCoroutine(SetInvincible());
             }
 
         if(enemyHealth <= 0 ) 
         {
-            EnemyDeath();
-        }
+                if (animator != null)
+                {
+                    animator.SetBool("isDead", true);
+                }
+            }
        }
     }
 
@@ -119,24 +127,22 @@ public class Enemy : MonoBehaviour
     /// </summary>
     void EnemyDeath()
     {
-        if(animator != null)
-        {
-            animator.SetBool("isDead", true);
-        }
+        
+        Destroy(gameObject);
        
 
-        DisableColliderEnemy();
+        
     }
     /// <summary>
     /// Metoddo para desactivar el collider del enemigo cuando muere
     /// </summary>
-    void DisableColliderEnemy()
-    {
-        if(enemyCollider != null)
-        {
-            enemyCollider.enabled = false;
-        }
-    }
+    //void DisableColliderEnemy()
+    //{
+    //    if(enemyCollider != null)
+    //    {
+    //        enemyCollider.enabled = false;
+    //    }
+    //}
     /// <summary>
     /// Metodo con el que el enemigo mira al player
     /// </summary>
@@ -161,7 +167,14 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(secondAttackManager.position, secondAttackArea);
     }
 
-   
+    private IEnumerator SetInvincible()
+    {
+        isInvincible = true;
+        Debug.Log("es invencible");
+        yield return new WaitForSeconds(2);
+        isInvincible = false;
+        Debug.Log("deja de invencible");
+    }
 
 
 }
