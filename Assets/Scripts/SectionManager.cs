@@ -19,10 +19,15 @@ public class SectionManager : MonoBehaviour
     [SerializeField]
     private int sectionCount = 0;
     [SerializeField]
-    private Sections[] changeSection;
+    private Sections changeSection;
     [SerializeField]
     private bool hasChangedSection = false;
-    
+    private Sections newSection;
+    public Sections intialSection;
+    [SerializeField]
+    private int maxSections =10;
+  
+
 
     //PATRÓN SINGLENTON
     //Creamos una variable publica y estática
@@ -42,6 +47,7 @@ public class SectionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         //si no se especifica un contenedor para las secciones, utilizamos el propio manager como contenedor
         if (!sectionContainer) sectionContainer = transform;
         for (int i = 0; i < initialPrewarm; i++)
@@ -63,57 +69,72 @@ public class SectionManager : MonoBehaviour
     public void SpawnSection()
     {
        
-        Sections newSection;
-        newSection = currentSection;
-        if (!hasChangedSection && sectionCount >= 5)
-        {
-            
-           
-            if (Random.Range(0,2)==0)
+        
+        
+        
+
+            if ((sectionCount/maxSections) == 0)
             {
+
+                //Obtenemos una nueva sección del array de forma aleatoria
                 
-                newSection = sectionPrefabsFN[Random.Range(0, sectionPrefabsFN.Length)];
-                Debug.Log("Ha cambiado a FN");
+                newSection = sectionPrefabsFD[Random.Range(0, sectionPrefabsFD.Length)];
+                Debug.Log("Sigue en FD");
+               
+                
+
                 
             }
-            else if(Random.Range(0,2)==1) 
+            else if((sectionCount / maxSections) == 1) 
             {
-                newSection = sectionPrefabsC[Random.Range(0,sectionPrefabsC.Length)];
-                Debug.Log("Ha cambiado a C");
+                if (maxSections * 1 == sectionCount)
+                {
+                    newSection = intialSection;
+                }
+                else 
+                {
+                    
+                    newSection = sectionPrefabsFN[Random.Range(0, sectionPrefabsFN.Length)];
+                    Debug.Log("Ha cambiado a FN");
+                }
+                
+
 
             }
             else
             {
-                //Obtenemos una nueva sección del array de forma aleatoria
-                newSection = sectionPrefabsFD[Random.Range(0, sectionPrefabsFD.Length)];
-                Debug.Log("Sigue en FD");
-            }
-            hasChangedSection = true;
-        }
-        else 
-        {
-            if (!hasChangedSection)
-            {
-                //Obtenemos una nueva sección del array de forma aleatoria
-                newSection = sectionPrefabsFD[Random.Range(0, sectionPrefabsFD.Length)];
-                Debug.Log("Sigue en FD");
+
+                
+                newSection = sectionPrefabsC[Random.Range(0, sectionPrefabsC.Length)];
+                Debug.Log("Ha cambiado a C");
             }
             
-        }
-        
-        
-            
-        
-        
+       
+        //else
+        //{
+        //    if (!hasChangedSection && sectionCount<=4 )
+        //    {
+        //        //Obtenemos una nueva sección del array de forma aleatoria
+        //        newSection = sectionPrefabsFD[Random.Range(0, sectionPrefabsFD.Length)];
+        //        Debug.Log("Sigue en FD");
+        //    }
+
+        //}
+
+
+
+
+
         //si el contador de secciones llega a un numero determinado crea una seccion determinada
         //if (sectionCount == 10)
         //{
         //    newSection = changeSection;
         //}
+
         // vector para almacenar la desviacion a aplicar para situar la nueva plataforma
         Vector3 nextPositionOffset = Vector3.zero;
         //calculamos el offset utilizando el tamaño de las mitades actual + la mitad siguiente
-        nextPositionOffset.x = currentSection.halfWidht + newSection.halfWidht;
+         nextPositionOffset.x = currentSection.halfWidht + newSection.halfWidht;
 
         //instanciamos una nueva sección y la almacenamos como referencia la sección actual
         currentSection = Instantiate(newSection,
@@ -126,4 +147,5 @@ public class SectionManager : MonoBehaviour
         Debug.Log("Secciones Aparecidas: " + sectionCount);
         
     }
+    
 }

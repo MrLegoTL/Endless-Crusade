@@ -23,6 +23,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float attackDamage;
     public float playerDistance;
+    public float playerDistanceX;
+    private float playerDistanceY;
     [Header("Enemy Second Attack")]
     [SerializeField]
     private Transform secondAttackManager;
@@ -46,8 +48,11 @@ public class Enemy : MonoBehaviour
     }
     private void Update()
     {
+        playerDistanceX=transform.position.x - player.transform.position.x;
+        playerDistanceY=transform.position.y - player.transform.position.y;
+        
           playerDistance = Vector2.Distance(transform.position, player.position);
-        animator.SetFloat("PlayerDistance", playerDistance);
+        animator.SetFloat("PlayerDistance", playerDistanceX);
     }
     
     /// <summary>
@@ -156,13 +161,7 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(secondAttackManager.position, secondAttackArea);
     }
 
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.CompareTag("Player"))
-    //    {
-    //        animator.SetTrigger("Attack");
-    //    }
-    //}
+   
 
 
 }

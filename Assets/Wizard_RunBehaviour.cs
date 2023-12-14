@@ -32,7 +32,7 @@ public class Wizard_RunBehaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       if(enemy.playerDistance <= 2)
+       if(enemy.playerDistanceX <= 2)
         {
             rb2D.velocity = new Vector2(0, rb2D.velocity.y);
         }

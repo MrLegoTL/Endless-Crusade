@@ -288,6 +288,9 @@ public class PlayerController : MonoBehaviour
     }
     void PickUp()
     {
+        rigidBody.velocity = Vector3.zero;
+        canMove=false;
+       
         isPickUp = true;
         animator.SetTrigger("Health");
         Invoke("RecoverMovement", 1);
@@ -426,6 +429,7 @@ public class PlayerController : MonoBehaviour
                 if (collider.CompareTag("Enemy"))
                 {
                     collider.transform.GetComponent<Enemy>().TakeDamage(airDamageAttack);
+                    Debug.Log("Le ha dado el airAttacck");
                 }
             }
             Invoke("RecoverMovement", 1);
