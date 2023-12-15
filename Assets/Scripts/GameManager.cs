@@ -1,0 +1,107 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+
+public class GameManager : MonoBehaviour
+{
+    public static GameManager instance;
+    //Define los diferentes estados del Juego
+    public enum GameState
+    {
+        Game,
+        Paused,
+        GameOver        
+    }
+
+    [Header("UI")]
+    public PanelController pauseScreen;
+
+
+    //Alamcena el esatdo actual del juego
+    public GameState currentState;
+    //Almacena el estado previo del juego
+    public GameState previousState;
+    //Booleana para comprobar si ha terminado la partida
+    public bool isGameOver = false;
+    
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+
+        currentState = GameState.Game;
+        isGameOver = false;
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    /// <summary>
+    /// Metodo para cambia el estado del juego
+    /// </summary>
+    /// <param name="newState"></param>
+    public void ChangeState(GameState newState)
+    {
+        currentState = newState;
+    }
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.started) CheckForPauseAndResume();
+    }
+    public void PauseGame()
+    {
+        // cambia el estado del juego
+        ChangeState(GameState.Paused);
+
+        // pausa el juego
+        Time.timeScale = 0f;
+
+        // activa la pantalla de pausa
+        pauseScreen.SetCanvasGroupActive(true);
+    }
+
+    /// <summary>
+    /// Metodo pra Renaudar el juego
+    /// </summary>
+    public void ResumeGame()
+    {
+        // cambia el estado del juego
+        ChangeState(GameState.Game);
+
+        // reanuda el juego
+        Time.timeScale = 1f;
+        //MusicManager.instance.PitchRegular();
+        // desactiva la pantalla de pausa
+        pauseScreen.SetCanvasGroupActive(false);
+    }
+    void CheckForPauseAndResume()
+    {
+        if (currentState == GameState.Paused)
+        {
+            ResumeGame();
+        }
+        else
+        {
+            PauseGame();
+        }
+    }
+    public void Restart()
+    {
+        //Si se reinicia la partida tras una pausa, hay que asegurar que el tiempo transcurrira con normalidad
+        Time.timeScale = 1;
+        
+        //recuperamos el indice de la escena actual y la cargamos nuevamente
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
+}
