@@ -25,7 +25,12 @@ public class SectionManager : MonoBehaviour
     private Sections newSection;
     public Sections intialSection;
     [SerializeField]
-   public int maxSections =10;
+    public int maxSections =10;
+    [Header("Backgrounds")]
+    public GameObject backgroundsFD;
+    public GameObject backgroundsFN;
+    public GameObject backgroundsC;
+    
   
 
 
@@ -59,7 +64,7 @@ public class SectionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        ChangeBackground();
     }
 
     /// <summary>
@@ -90,7 +95,8 @@ public class SectionManager : MonoBehaviour
                 if (maxSections * 1 == sectionCount)
                 {
                     newSection = intialSection;
-                }
+                
+            }
                 else 
                 {
                     
@@ -98,7 +104,6 @@ public class SectionManager : MonoBehaviour
                     Debug.Log("Ha cambiado a FN");
                 }
                 
-
 
             }
             else
@@ -146,6 +151,15 @@ public class SectionManager : MonoBehaviour
         sectionCount++;
         Debug.Log("Secciones Aparecidas: " + sectionCount);
         
+    }
+
+    void ChangeBackground()
+    {
+        if ((sectionCount == 16))
+        {
+            backgroundsFD.SetActive(false);
+           backgroundsFN.SetActive(true);
+        }
     }
     
 }

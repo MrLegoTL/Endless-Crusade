@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour
     public bool isHurt=false;
     [SerializeField]
     private bool isInvincible=false;
+    [SerializeField]
+    private float timeInvincible;
 
     [Header("Enemy Attack")]
     [SerializeField]
@@ -171,7 +173,7 @@ public class Enemy : MonoBehaviour
     {
         isInvincible = true;
         Debug.Log("es invencible");
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(timeInvincible);
         isInvincible = false;
         Debug.Log("deja de invencible");
     }

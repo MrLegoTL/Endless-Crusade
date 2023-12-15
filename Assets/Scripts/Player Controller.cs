@@ -26,6 +26,14 @@ public class PlayerController : MonoBehaviour
     private float areaAttack;
     [SerializeField]
     public float damageAttack;
+    [SerializeField]
+    private float timeBetweenAttacks = 1.0f;
+    public float attackRate = 2f;
+    [SerializeField]
+    float nextAttackTime = 0f;
+    [SerializeField]
+    private bool isAttacking = false;
+
 
     [Header("AirAttack")]
     [SerializeField]
@@ -41,9 +49,7 @@ public class PlayerController : MonoBehaviour
     public bool canAttack = true;
     public bool canCombo = false;
 
-    public float attackRate = 2f;
-    [SerializeField]
-    float nextAttackTime = 0f;
+    
   
 
     [Header("Jump Settings")]
@@ -114,8 +120,16 @@ public class PlayerController : MonoBehaviour
         coyoteTimeCounter-= Time.deltaTime;
 
         input.y = Input.GetAxisRaw("Vertical");
-       
 
+        if (isAttacking)
+        {
+            nextAttackTime -= Time.deltaTime;
+            if(nextAttackTime <= 0f)
+            {
+                isAttacking = false;
+                nextAttackTime = 0f;
+            }
+        }
     }
     private void FixedUpdate()
     {
@@ -159,15 +173,23 @@ public class PlayerController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if(Time.time >= nextAttackTime)
-        {
-            if (context.performed)
-            {
-                Golpe();
-                nextAttackTime = Time.time+1f/attackRate;
 
-            }
+        if(context.performed && Time.time >= nextAttackTime)
+        {
+            Golpe();
+            isAttacking = true;
+            nextAttackTime =  timeBetweenAttacks;
         }
+        //if(Time.time >= nextAttackTime)
+        //{
+        //    if (context.performed)
+        //    {
+                
+        //        Golpe();
+        //        nextAttackTime = Time.time+1f/attackRate;
+
+        //    }
+        //}
         
         //if (context.performed )
         //{
@@ -191,7 +213,21 @@ public class PlayerController : MonoBehaviour
     /// 
     void Golpe()
     {
-        animator.SetTrigger("Golpe");
+        if (!isAttacking)
+        {
+            animator.SetTrigger("Golpe");
+        }
+        else
+        {
+            animator.SetTrigger("Attack2");
+            isAttacking= false;
+        }
+        if (nextAttackTime <= 0)
+        {
+            animator.SetBool("TimeAttack", true);
+        }
+       
+
 
         Collider2D[] objects = Physics2D.OverlapCircleAll(attackManager.position, areaAttack);
 
