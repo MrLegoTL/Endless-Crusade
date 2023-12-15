@@ -27,10 +27,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     public float damageAttack;
     [SerializeField]
-    private float timeBetweenAttacks = 1.0f;
-    public float attackRate = 2f;
+    private float timeBetweenAttacks;
     [SerializeField]
-    float nextAttackTime = 0f;
+    private float timeNextAttack;
     [SerializeField]
     private bool isAttacking = false;
 
@@ -105,6 +104,7 @@ public class PlayerController : MonoBehaviour
         healthBar.InitializeHealthBar(playerHealth);
         boxCollider2D = GetComponent<BoxCollider2D>();
         initialGravity = rigidBody.gravityScale;
+        timeNextAttack = timeBetweenAttacks;
     }
 
     // Update is called once per frame
@@ -123,17 +123,18 @@ public class PlayerController : MonoBehaviour
 
         if (isAttacking)
         {
-            nextAttackTime -= Time.deltaTime;
-            if(nextAttackTime <= 0f)
-            {
-                isAttacking = false;
-                nextAttackTime = 0f;
-            }
+            timeNextAttack -= Time.deltaTime;
         }
+        
     }
     private void FixedUpdate()
     {
         Climb();
+        if (timeNextAttack <= 0)
+        {
+            isAttacking = false;
+            timeNextAttack = timeBetweenAttacks;
+        }
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -174,22 +175,12 @@ public class PlayerController : MonoBehaviour
     public void OnAttack(InputAction.CallbackContext context)
     {
 
-        if(context.performed && Time.time >= nextAttackTime)
+        if(context.performed)
         {
             Golpe();
-            isAttacking = true;
-            nextAttackTime =  timeBetweenAttacks;
+            
+            
         }
-        //if(Time.time >= nextAttackTime)
-        //{
-        //    if (context.performed)
-        //    {
-                
-        //        Golpe();
-        //        nextAttackTime = Time.time+1f/attackRate;
-
-        //    }
-        //}
         
         //if (context.performed )
         //{
@@ -216,18 +207,14 @@ public class PlayerController : MonoBehaviour
         if (!isAttacking)
         {
             animator.SetTrigger("Golpe");
-        }
-        else
+            isAttacking = true;
+        }else if(isAttacking && timeNextAttack > 0)
         {
             animator.SetTrigger("Attack2");
-            isAttacking= false;
+            isAttacking = false;
+            timeNextAttack = timeBetweenAttacks;
         }
-        if (nextAttackTime <= 0)
-        {
-            animator.SetBool("TimeAttack", true);
-        }
-       
-
+        
 
         Collider2D[] objects = Physics2D.OverlapCircleAll(attackManager.position, areaAttack);
 
