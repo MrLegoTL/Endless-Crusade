@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,8 +16,12 @@ public class GameManager : MonoBehaviour
         GameOver        
     }
 
-    [Header("UI")]
+    [Header("Pausemenu")]
     public PanelController pauseScreen;
+    [Header("HUD")]
+    private int collectableCount = 0;
+    public TMP_Text collectableText;
+
 
 
     //Alamcena el esatdo actual del juego
@@ -25,6 +30,7 @@ public class GameManager : MonoBehaviour
     public GameState previousState;
     //Booleana para comprobar si ha terminado la partida
     public bool isGameOver = false;
+
     
 
     private void Awake()
@@ -40,8 +46,21 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        collectableText.text=collectableCount.ToString();
     }
+    /// <summary>
+    /// Incrementa el numero de coleccionables recogidos
+    /// </summary>
+    /// <param name="value"></param>
+    public void PickupCollectable(int value)
+    {
+        //incrementamos el numero de coleccionables recogidos
+        collectableCount += value;
+        //Para que en el contador no salga negativo
+        collectableCount = Mathf.Clamp(collectableCount, 0, collectableCount);
+        collectableText.text = collectableCount.ToString();
+    }
+
 
     /// <summary>
     /// Metodo para cambia el estado del juego
