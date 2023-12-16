@@ -33,13 +33,15 @@ public class CameraTrack : MonoBehaviour
 
         transform.position = newPos;
        
-        if(player.transform.position.y <= -1 || offsetY <= -0.77)
+        if(player.transform.position.y <= -1 || player.transform.position.y >=0.9f)
         {
             followY = false;
+            offsetY = -0.5f;
 
         }
         else
         {
+            offsetY = 0;
             followY = true;
         }
 
