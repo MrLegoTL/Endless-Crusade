@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public float rollTime;
     public bool canRoll = true;
     public bool isInvincible = false;
+    
     //public float dashCooldown;
 
     [Header("Attack")]
@@ -89,6 +90,12 @@ public class PlayerController : MonoBehaviour
     private bool isClimbing;
     private float vertical;
     private Vector2 input;
+
+    [Header("Cheats")]
+    [SerializeField]
+    private bool isImmune = false;
+    private bool moreDamage = false;
+    private bool moreJumpForce;
 
 
     //referencia al animator
@@ -300,7 +307,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "DamageZone" && !isInvincible)
+        if(collision.tag == "DamageZone" && !isImmune && !isInvincible)
         {
             Dead();
         }
@@ -325,7 +332,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-       else if (collision.collider.CompareTag("Enemy") && !isInvincible)
+       else if (collision.collider.CompareTag("Enemy") && !isInvincible && !isImmune)
         {
             //indicamos al jugador que muera
             Dead();
@@ -336,7 +343,7 @@ public class PlayerController : MonoBehaviour
     {
         //si el objetos colisionado es un enemigo 
 
-        if (collision.tag == "Enemy" && !isInvincible)
+        if (collision.tag == "Enemy" && !isInvincible && !isImmune)
         {
             //indicamos al jugador que muera
             Dead();
@@ -544,7 +551,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="dmg"></param>
     public void TakeDamage(float dmg)
     {
-        if (!isInvincible)
+        if (!isInvincible && !isImmune)
         {
             playerHealth -= dmg;
             healthBar.ChangedCurrentHealth(playerHealth);
@@ -612,6 +619,39 @@ public class PlayerController : MonoBehaviour
         canMove = true;
         isAirAttack = false;
         isPickUp = false;
+    }
+
+    //-------------------------------------- Menu de Chetos --------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------
+     public void SetImmunity()
+    {
+        isImmune = !isImmune;
+    }
+
+    public void MoreDamage()
+    {
+        moreDamage = !moreDamage;
+        if (moreDamage)
+        {
+            damageAttack *= 999;
+        }
+        else
+        {
+            damageAttack /= 999;
+        }
+        
+    }
+    public void MoreJumpForce()
+    {
+        moreJumpForce=!moreJumpForce;
+        if(moreJumpForce)
+        {
+            jumpForce *= 2;
+        }
+        else
+        {
+            jumpForce /= 2;
+        }
     }
 }
 
