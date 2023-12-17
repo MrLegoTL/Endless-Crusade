@@ -267,7 +267,8 @@ MonoBehaviour:
     m_Bits: 8
   isHurt: 0
   isInvincible: 0
-  timeInvincible: 0
+  timeInvincible: 2
+  enemyDeathCount: 1
   attackManager: {fileID: 6604494337148306269}
   attackArea: 0.2
   attackDamage: 10
