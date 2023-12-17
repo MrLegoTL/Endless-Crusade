@@ -6,7 +6,10 @@ TagManager:
   tags:
   - Enemy
   - DamageZone
-  - PickUp
+  - Power
+  - PickUpPower
+  - PickUpHealth
+  - Undefined
   layers:
   - Default
   - TransparentFX

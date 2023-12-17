@@ -4,14 +4,22 @@ using UnityEngine;
 
 public class PowerGem : PickUp
 {
-    public float moreDamage;
+    //public float moreDamage;
+    public float timeMoreDamage;
     public void Collect()
     {
         PlayerController player = FindObjectOfType<PlayerController>();
-        player.damageAttack += moreDamage;
+        player.ActivatePowerUp(timeMoreDamage);
     }
     private void OnDestroy()
     {
-        Collect();
+       Collect();
+        
     }
+    //private IEnumerator TimeMoreDamage()
+    //{
+    //    PlayerController player = FindObjectOfType<PlayerController>();
+    //    player.damageAttack += moreDamage;
+    //    yield return new WaitForSeconds(10);
+    //}
 }

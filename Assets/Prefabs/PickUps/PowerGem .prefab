@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 1094201413942697924}
   m_Layer: 0
   m_Name: 'PowerGem '
-  m_TagString: PickUp
+  m_TagString: PickUpPower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32c0e477abaf1d04e91ac599b3cafd43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moreDamage: 10
+  timeMoreDamage: 0
 --- !u!1 &8747540395790287006
 GameObject:
   m_ObjectHideFlags: 0

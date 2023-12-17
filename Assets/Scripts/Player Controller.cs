@@ -97,6 +97,11 @@ public class PlayerController : MonoBehaviour
     private bool moreDamage = false;
     private bool moreJumpForce;
 
+    [Header("PowerUp")]
+    //para realizar el contador inteno de la duración del powerup
+    private float powerUpCounter = 0f;
+    //corrutina para gestionar la duración del powerUp
+    private Coroutine powerUpCoroutine;
 
     //referencia al animator
     public Animator animator;
@@ -311,8 +316,14 @@ public class PlayerController : MonoBehaviour
         {
             Dead();
         }
-        if (collision.CompareTag("PickUp"))
+        if (collision.CompareTag("PickUpHealth"))
         {
+            animator.SetTrigger("Health");
+            PickUp();
+        }
+        else if(collision.CompareTag("PickUpPower"))
+        {
+            animator.SetTrigger("Power");
             PickUp();
         }
     }
@@ -322,7 +333,7 @@ public class PlayerController : MonoBehaviour
         canMove=false;
        
         isPickUp = true;
-        animator.SetTrigger("Health");
+        
         Invoke("RecoverMovement", 1);
     }
 
@@ -621,9 +632,44 @@ public class PlayerController : MonoBehaviour
         isPickUp = false;
     }
 
+    /// <summary>
+    /// Contador de timepo para controlar la duracion del powerUp
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator PowerUpTime(float duration)
+    {
+        damageAttack += 10;
+        //Inicializamos el contador  de tiempo
+        powerUpCounter = duration;
+        //mientras el contador el timepo transcurrido desde el ultimo frame
+        while (powerUpCounter > 0)
+        {
+            powerUpCounter -= Time.deltaTime;
+            //no hacemos ninguna espera
+            yield return null;
+            
+        }
+        if(powerUpCounter <= 0)
+        {
+            damageAttack -= 10;
+        }
+    }
+
+    /// <summary>
+    /// Activa el PowerUp
+    /// </summary>
+    public void ActivatePowerUp(float duration)
+    {
+        
+        //si extiste la corrutina la detenemos
+        if (powerUpCoroutine != null) StopCoroutine(powerUpCoroutine);
+        //inicimaos la corrutina nuevamente
+        powerUpCoroutine = StartCoroutine(PowerUpTime(duration));
+    }
+
     //-------------------------------------- Menu de Chetos --------------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------------------------------------------------------
-     public void SetImmunity()
+    public void SetImmunity()
     {
         isImmune = !isImmune;
     }

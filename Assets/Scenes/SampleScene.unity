@@ -9979,11 +9979,76 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3589403750964412392, guid: 6dcc5d7bd91ba6f4f83013e74b777ffa, type: 3}
+      propertyPath: m_TagString
+      value: Undefined
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6dcc5d7bd91ba6f4f83013e74b777ffa, type: 3}
+--- !u!1001 &1165373112
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1094201413942697924, guid: 5f674d85c6c1e3f4583892b8c891984d, type: 3}
+      propertyPath: timeMoreDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5384568352584848121, guid: 5f674d85c6c1e3f4583892b8c891984d, type: 3}
+      propertyPath: m_Name
+      value: 'PowerGem '
+      objectReference: {fileID: 0}
+    - target: {fileID: 7818599597466176974, guid: 5f674d85c6c1e3f4583892b8c891984d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.030134141
+      objectReference: {fileID: 0}
+    - target: {fileID: 7818599597466176974, guid: 5f674d85c6c1e3f4583892b8c891984d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.43945593
+      objectReference: {fileID: 0}
+    - target: {fileID: 7818599597466176974, guid: 5f674d85c6c1e3f4583892b8c891984d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7818599597466176974, guid: 5f674d85c6c1e3f4583892b8c891984d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7818599597466176974, guid: 5f674d85c6c1e3f4583892b8c891984d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7818599597466176974, guid: 5f674d85c6c1e3f4583892b8c891984d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7818599597466176974, guid: 5f674d85c6c1e3f4583892b8c891984d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7818599597466176974, guid: 5f674d85c6c1e3f4583892b8c891984d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7818599597466176974, guid: 5f674d85c6c1e3f4583892b8c891984d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7818599597466176974, guid: 5f674d85c6c1e3f4583892b8c891984d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5f674d85c6c1e3f4583892b8c891984d, type: 3}
 --- !u!1 &1167141191
 GameObject:
   m_ObjectHideFlags: 0
@@ -11038,6 +11103,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EvilWizard
       objectReference: {fileID: 0}
+    - target: {fileID: 5364815726915132318, guid: 6c55713e6432cb044b609435ec88740b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6758575192517800516, guid: 6c55713e6432cb044b609435ec88740b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.12754974
@@ -11726,3 +11795,4 @@ SceneRoots:
   - {fileID: 1957250137}
   - {fileID: 856400647}
   - {fileID: 1871779522}
+  - {fileID: 1165373112}
