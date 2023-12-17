@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     [Header("HUD")]
     private int collectableCount = 0;
     public TMP_Text collectableText;
+    private int enemyCount = 0;
+    public TMP_Text enemyCollectableText;
 
 
 
@@ -47,6 +49,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         collectableText.text=collectableCount.ToString();
+        enemyCollectableText.text = enemyCount.ToString();
     }
     /// <summary>
     /// Incrementa el numero de coleccionables recogidos
@@ -59,6 +62,12 @@ public class GameManager : MonoBehaviour
         //Para que en el contador no salga negativo
         collectableCount = Mathf.Clamp(collectableCount, 0, collectableCount);
         collectableText.text = collectableCount.ToString();
+    }
+
+    public void EnemyCount(int value)
+    {
+        enemyCount += value;
+        enemyCollectableText.text = enemyCount.ToString();
     }
 
 

@@ -19,6 +19,8 @@ public class Enemy : MonoBehaviour
     private bool isInvincible=false;
     [SerializeField]
     private float timeInvincible;
+    [SerializeField]
+    private int enemyDeathCount = 1;
 
     [Header("Enemy Attack")]
     [SerializeField]
@@ -118,6 +120,7 @@ public class Enemy : MonoBehaviour
         {
                 if (animator != null)
                 {
+                    GameManager.instance.EnemyCount(enemyDeathCount);
                     animator.SetBool("isDead", true);
                 }
             }
@@ -131,9 +134,8 @@ public class Enemy : MonoBehaviour
     {
         
         Destroy(gameObject);
-       
-
         
+
     }
     /// <summary>
     /// Metoddo para desactivar el collider del enemigo cuando muere
@@ -148,7 +150,7 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// Metodo con el que el enemigo mira al player
     /// </summary>
-      public void SeePlayer()
+    public void SeePlayer()
     {
         if((player.position.x > transform.position.x && !seeRight) || (player.position.x < transform.position.x && seeRight))
         {
