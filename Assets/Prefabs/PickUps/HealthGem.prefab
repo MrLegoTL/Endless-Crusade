@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 6474883230096965770}
   - component: {fileID: 972032450328585907}
   - component: {fileID: 944229960728482076}
-  - component: {fileID: 7226197688778831815}
   - component: {fileID: 5755907441374659718}
+  - component: {fileID: -3310519839451216455}
   m_Layer: 0
   m_Name: HealthGem
   m_TagString: PickUpHealth
@@ -173,21 +173,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.1
---- !u!114 &7226197688778831815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3589403750964412392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7096dc6794433d24aa0a521432400390, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioClip: {fileID: 0}
-  audioSource: {fileID: 5755907441374659718}
-  healthToRestore: 20
 --- !u!82 &5755907441374659718
 AudioSource:
   m_ObjectHideFlags: 0
@@ -284,6 +269,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-3310519839451216455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3589403750964412392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d74382492d69f14c801baf705d37056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
+  timeMoreDamage: 0
+  healthToRestore: 20
+  soulValue: 1
+  audioClip: {fileID: 8300000, guid: 886cc406ae943d941a392102030c2874, type: 3}
+  audioSource: {fileID: 5755907441374659718}
+  collider: {fileID: 944229960728482076}
+  spriteRenderer: {fileID: 4599342607997154323}
 --- !u!1 &4256900314926888351
 GameObject:
   m_ObjectHideFlags: 0

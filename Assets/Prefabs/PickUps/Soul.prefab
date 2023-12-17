@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 4250031650992013714}
   - component: {fileID: 4793955335114538838}
   - component: {fileID: 3541484371521647010}
-  - component: {fileID: 5204925046039867422}
   - component: {fileID: 4435063653694905559}
+  - component: {fileID: 6495134611825492883}
   m_Layer: 0
   m_Name: Soul
   m_TagString: Untagged
@@ -173,26 +173,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.004857227}
   serializedVersion: 2
   m_Radius: 0.09514277
---- !u!114 &5204925046039867422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 184783652505750688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6acf171263efa7248befa1ccd0c61cc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  timeMoreDamage: 0
-  soulValue: 1
-  audioClip: {fileID: 0}
-  audioSource: {fileID: 0}
-  collider: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  soulValue: 1
 --- !u!82 &4435063653694905559
 AudioSource:
   m_ObjectHideFlags: 0
@@ -204,7 +184,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -289,6 +269,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6495134611825492883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184783652505750688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d74382492d69f14c801baf705d37056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  timeMoreDamage: 0
+  healthToRestore: 0
+  soulValue: 1
+  audioClip: {fileID: 8300000, guid: 804fcfada1f04504c9b8080f82b8543f, type: 3}
+  audioSource: {fileID: 4435063653694905559}
+  collider: {fileID: 3541484371521647010}
+  spriteRenderer: {fileID: 6864999281458108968}
 --- !u!1 &3948081118401514908
 GameObject:
   m_ObjectHideFlags: 0
