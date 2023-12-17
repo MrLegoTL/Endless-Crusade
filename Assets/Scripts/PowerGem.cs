@@ -10,6 +10,7 @@ public class PowerGem : PickUp
     {
         PlayerController player = FindObjectOfType<PlayerController>();
         player.ActivatePowerUp(timeMoreDamage);
+        
     }
     private void OnDestroy()
     {
