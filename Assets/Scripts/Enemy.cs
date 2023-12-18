@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -115,7 +116,7 @@ public class Enemy : MonoBehaviour
             if(animator != null)
             {
                 animator.SetTrigger("Hurt");
-                StartCoroutine(SetInvincible());
+                //StartCoroutine(SetInvincible());
             }
 
         if(enemyHealth <= 0 ) 
@@ -125,8 +126,32 @@ public class Enemy : MonoBehaviour
                     GameManager.instance.EnemyCount(enemyDeathCount);
                     animator.SetBool("isDead", true);
                 }
+        }
+            if (rb2D != null)
+            {
+                float direction = GetDirectionFromHit();
+                rb2D.velocity= new Vector2(-direction * hitForce, rb2D.velocity.y);
             }
-       }
+      }
+    }
+    // Método para obtener la dirección desde la que se realizó el ataque
+    float GetDirectionFromHit()
+    {
+        float direction = 0f;
+
+        // Comparar las posiciones para determinar la dirección del ataque
+        if (player.position.x > transform.position.x)
+        {
+            // Golpe desde la derecha, desplazar hacia la izquierda
+            direction = 1f;
+        }
+        else
+        {
+            // Golpe desde la izquierda, desplazar hacia la derecha
+            direction = -1f;
+        }
+
+        return direction;
     }
 
     /// <summary>
@@ -173,15 +198,15 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(secondAttackManager.position, secondAttackArea);
     }
 
-    private IEnumerator SetInvincible()
-    {
+    //private IEnumerator SetInvincible()
+    //{
        
-        isInvincible = true;
-        Debug.Log("es invencible");
-        yield return new WaitForSeconds(timeInvincible);
-        isInvincible = false;
-        Debug.Log("deja de invencible");
-    }
+    //    isInvincible = true;
+    //    Debug.Log("es invencible");
+    //    yield return new WaitForSeconds(timeInvincible);
+    //    isInvincible = false;
+    //    Debug.Log("deja de invencible");
+    //}
 
 
 }
