@@ -27,7 +27,7 @@ public class MusicManager : MonoBehaviour
             // en caso de que ya exista una instancia, para evitar solapamientos, autodestruiremos la nueva instancia
             Destroy(gameObject);
         }
-
+        
         //esto hara que la instancia no sea destruida entre escenas
         DontDestroyOnLoad(gameObject);
     }
@@ -66,25 +66,31 @@ public class MusicManager : MonoBehaviour
         //float counter = fadeTime / 2;
         //while (counter > 0)
         //{
+        //    Debug.Log(OptionsManager.instance.musicSlider.value);
+
         //    //vamos reduciendo el volumen
-        //    audioSource.volume = counter / (fadeTime / 2);
+        //    audioSource.volume = counter / OptionsManager.instance.musicSlider.value;
+        //    Debug.Log(audioSource.volume);
         //    //reducimos el contador
         //    counter -= Time.deltaTime;
         //    yield return null;
         //}
-        //relizamos el cambio de clip al que recibimos como parametro
+
+        ////relizamos el cambio de clip al que recibimos como parametro
         audioSource.clip = clip;
         //Iniciamos la reproduccion ya que el cambio de clip la detiene
         audioSource.Play();
         yield return null;
-    }
-    //    while (counter <1)
-    //    {
-    //        audioSource.volume = OptionsManager.instance.musicSlider.value;
-    //        /*counter += Time.deltaTime*/;
-    //        yield return null;
-    //    }
-    //}
-  
 
+        //while (counter < fadeTime / 2)
+        //{
+
+        //    audioSource.volume = counter / OptionsManager.instance.musicSlider.value;
+            
+        //    counter += Time.deltaTime;
+
+        //    yield return null;
+        //}
+    }
+    
 }

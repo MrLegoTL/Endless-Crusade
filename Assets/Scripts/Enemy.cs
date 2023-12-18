@@ -21,6 +21,8 @@ public class Enemy : MonoBehaviour
     private float timeInvincible;
     [SerializeField]
     private int enemyDeathCount = 1;
+    [SerializeField]
+    private float hitForce = 1f;
 
     [Header("Enemy Attack")]
     [SerializeField]
@@ -173,6 +175,7 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator SetInvincible()
     {
+       
         isInvincible = true;
         Debug.Log("es invencible");
         yield return new WaitForSeconds(timeInvincible);
