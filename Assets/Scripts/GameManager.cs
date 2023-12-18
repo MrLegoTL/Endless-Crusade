@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
     {
         collectableText.text=collectableCount.ToString();
         enemyCollectableText.text = enemyCount.ToString();
+        //al inicio nos aseguramos de que suene la musica correcta
+        MusicManager.instance.PlayGame();
     }
     /// <summary>
     /// Incrementa el numero de coleccionables recogidos
@@ -128,8 +130,8 @@ public class GameManager : MonoBehaviour
         //recuperamos el indice de la escena actual y la cargamos nuevamente
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-    public void MainMenu()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-    }
+    //public void MainMenu()
+    //{
+    //    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    //}
 }
