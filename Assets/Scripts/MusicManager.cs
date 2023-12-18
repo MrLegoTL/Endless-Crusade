@@ -13,8 +13,7 @@ public class MusicManager : MonoBehaviour
     [Range(1, 3)]
     public float fadeTime = 2f;
     private Coroutine changeClipCoroutine;
-    public Slider musicSlider;
-    public float maxVolumen;
+    
     public static MusicManager instance;
 
     void Awake()
@@ -34,7 +33,8 @@ public class MusicManager : MonoBehaviour
     }
     private void Start()
     {
-        musicSlider.value = maxVolumen;
+        
+        
     }
 
     /// <summary>
@@ -57,29 +57,34 @@ public class MusicManager : MonoBehaviour
         changeClipCoroutine = StartCoroutine(ChangeClip(gameClip));
     }
 
-    private IEnumerator ChangeClip(AudioClip clip)
+
+
+    public IEnumerator ChangeClip(AudioClip clip)
     {
-        //usaremos el contador con la mitad del tiempo, ya que deberemos hacer el fundido de salida y de entrada.
-        float counter = fadeTime / 2;
-        while (counter > 0)
-        {
-            //vamos reduciendo el volumen
-            audioSource.volume = counter / (fadeTime / 2);
-            //reducimos el contador
-            counter -= Time.deltaTime;
-            yield return null;
-        }
+
+        ////usaremos el contador con la mitad del tiempo, ya que deberemos hacer el fundido de salida y de entrada.
+        //float counter = fadeTime / 2;
+        //while (counter > 0)
+        //{
+        //    //vamos reduciendo el volumen
+        //    audioSource.volume = counter / (fadeTime / 2);
+        //    //reducimos el contador
+        //    counter -= Time.deltaTime;
+        //    yield return null;
+        //}
         //relizamos el cambio de clip al que recibimos como parametro
         audioSource.clip = clip;
         //Iniciamos la reproduccion ya que el cambio de clip la detiene
         audioSource.Play();
-        while (counter < (fadeTime / 2))
-        {
-            audioSource.volume = maxVolumen;
-            counter += Time.deltaTime;
-            yield return null;
-        }
+        yield return null;
     }
+    //    while (counter <1)
+    //    {
+    //        audioSource.volume = OptionsManager.instance.musicSlider.value;
+    //        /*counter += Time.deltaTime*/;
+    //        yield return null;
+    //    }
+    //}
+  
 
-   
 }

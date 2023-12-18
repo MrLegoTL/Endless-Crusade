@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
         enemyCollectableText.text = enemyCount.ToString();
         //al inicio nos aseguramos de que suene la musica correcta
         MusicManager.instance.PlayGame();
+        
     }
     /// <summary>
     /// Incrementa el numero de coleccionables recogidos

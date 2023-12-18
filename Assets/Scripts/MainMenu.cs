@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         MusicManager.instance.PlayMainMenu();
+        
     }
     public void Play()
     {
