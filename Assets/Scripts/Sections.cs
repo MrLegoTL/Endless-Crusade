@@ -24,11 +24,14 @@ public class Sections : MonoBehaviour
     // variable para controlar si se ha solicitado la destruccion de la seccion
     private bool isDestroyed = false;
 
+    //public Collider2D sectionCollider;
+
     // Start is called before the first frame update
     void Start()
     {
         //recuperamos la referencia al transform de la camara utilizando el main camera
         cameraTransform = Camera.main.transform;
+        //sectionCollider = GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
@@ -36,6 +39,14 @@ public class Sections : MonoBehaviour
     {
         CheckDestroy();
     }
+
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Player"))
+    //    {
+    //        sectionCollider.isTrigger = false;
+    //    }
+    //}
 
     private void OnDrawGizmos()
     {
@@ -86,10 +97,11 @@ public class Sections : MonoBehaviour
     /// </summary>
     private void DestroySection()
     {
+        
         //utilizando el SINGLENTON  de SectionManager, llamamos al metodo de generacion de una nueva sección
         SectionManager.instance.SpawnSection();
         //indicamos a la sección que se autodestruya
-        Destroy(gameObject, 3f);
+        Destroy(gameObject, 30f);
         //especificamos qu eya hemos indicaco que la seccion sea destruida
         isDestroyed = true;
     }

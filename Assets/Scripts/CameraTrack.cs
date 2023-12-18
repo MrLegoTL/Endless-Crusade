@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CameraTrack : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class CameraTrack : MonoBehaviour
     //desviacion de la posicion en Y para dar margen de vision
     [Range(-2, 2)]
     public float offsetY = 0;
+
+    
+
 
     private void Start()
     {
@@ -44,6 +48,8 @@ public class CameraTrack : MonoBehaviour
             offsetY = 0;
             followY = true;
         }
-
+        
     }
+
+    
 }

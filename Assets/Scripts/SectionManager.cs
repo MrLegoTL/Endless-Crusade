@@ -22,7 +22,7 @@ public class SectionManager : MonoBehaviour
     private Sections changeSection;
     [SerializeField]
     private bool hasChangedSection = false;
-    private Sections newSection;
+    
     public Sections intialSection;
     [SerializeField]
     public int maxSections =10;
@@ -73,8 +73,9 @@ public class SectionManager : MonoBehaviour
     [ContextMenu("SpawnSectionTest")]
     public void SpawnSection()
     {
-       
-        
+         Sections newSection;
+
+         
         
         
 
@@ -146,6 +147,8 @@ public class SectionManager : MonoBehaviour
                                      currentSection.transform.position + nextPositionOffset,
                                      Quaternion.identity,
                                      sectionContainer);
+
+        
 
         //Incrementamos el contador de secciones
         sectionCount++;
