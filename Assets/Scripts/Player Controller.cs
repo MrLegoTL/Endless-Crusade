@@ -32,7 +32,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float timeNextAttack;
     [SerializeField]
+    private float timeLastAttack;
+    [SerializeField]
     private bool isAttacking = false;
+    [SerializeField]
+    private bool isSecondAttack = false;
+    [SerializeField]
+    private float timeFinishCombo = 0.5f;
 
 
     [Header("AirAttack")]
@@ -117,6 +123,7 @@ public class PlayerController : MonoBehaviour
         boxCollider2D = GetComponent<BoxCollider2D>();
         initialGravity = rigidBody.gravityScale;
         timeNextAttack = timeBetweenAttacks;
+        timeLastAttack= timeBetweenAttacks;
     }
 
     // Update is called once per frame
@@ -137,15 +144,27 @@ public class PlayerController : MonoBehaviour
         {
             timeNextAttack -= Time.deltaTime;
         }
+        if (isSecondAttack)
+        {
+            timeLastAttack -= Time.deltaTime;
+        }
         
     }
     private void FixedUpdate()
     {
         Climb();
-        if (timeNextAttack <= 0)
+        if (timeNextAttack <= 0 )
         {
             isAttacking = false;
             timeNextAttack = timeBetweenAttacks;
+            StartCoroutine(FinishCombo(0));
+           
+        }else if(timeLastAttack<=0)
+        {
+            isAttacking = false;
+            isSecondAttack = false;
+            timeLastAttack = timeBetweenAttacks;
+            StartCoroutine(FinishCombo(0));
         }
     }
 
@@ -216,15 +235,35 @@ public class PlayerController : MonoBehaviour
     /// 
     void Golpe()
     {
-        if (!isAttacking)
+       
+        
+        if (!isAttacking && !isSecondAttack)
         {
             animator.SetTrigger("Golpe");
             isAttacking = true;
-        }else if(isAttacking && timeNextAttack > 0)
+            rigidBody.velocity = Vector3.zero;
+            canMove = false;
+           
+        }
+        else if(isAttacking && timeNextAttack > 0 && !isSecondAttack)
         {
             animator.SetTrigger("Attack2");
-            isAttacking = false;
+            isAttacking = true;
             timeNextAttack = timeBetweenAttacks;
+            isSecondAttack = true;
+            rigidBody.velocity = Vector3.zero;
+            canMove = false;
+        }
+        else if(isSecondAttack && timeLastAttack > 0)
+        {
+            timeNextAttack = timeBetweenAttacks;
+            animator.SetTrigger("Attack3");
+            //isSecondAttack = false;
+            //isAttacking = false;
+            //timeLastAttack = timeBetweenAttacks;
+            rigidBody.velocity = Vector3.zero;
+            canMove = false;
+            StartCoroutine(FinishCombo(timeFinishCombo));
         }
         
 
@@ -237,8 +276,17 @@ public class PlayerController : MonoBehaviour
                 collider.transform.GetComponent<Enemy>().TakeDamage(damageAttack);
             }
         }
-
-
+        
+        
+    }
+    private IEnumerator FinishCombo(float duration)
+    {
+        
+        yield return new WaitForSeconds(duration);
+        isSecondAttack = false;
+        isAttacking = false;
+        timeLastAttack = timeBetweenAttacks;
+        Invoke("RecoverMovement", duration);
     }
     //private IEnumerator Attack()
     //{
@@ -268,7 +316,7 @@ public class PlayerController : MonoBehaviour
     public void OnDash(InputAction.CallbackContext context)
     {
         
-        if (canRoll && grounded && !isAirAttack && !isPickUp)
+        if (canRoll && grounded && !isAirAttack && !isPickUp && !canAttack)
         {
             StartCoroutine(Roll());
         }
@@ -511,8 +559,8 @@ public class PlayerController : MonoBehaviour
         
         animator.SetBool("Roll", !canRoll);
         animator.SetBool("Attack", !canAttack);
-
-        if(Mathf.Abs(rigidBody.velocity.y) > Mathf.Epsilon)
+       
+        if (Mathf.Abs(rigidBody.velocity.y) > Mathf.Epsilon)
         {
             animator.SetFloat("VelocityY", Mathf.Sign(rigidBody.velocity.y));
         }
@@ -630,6 +678,7 @@ public class PlayerController : MonoBehaviour
         canMove = true;
         isAirAttack = false;
         isPickUp = false;
+        canAttack = false;
     }
 
     /// <summary>

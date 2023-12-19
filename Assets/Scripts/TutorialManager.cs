@@ -25,7 +25,7 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             Debug.Log("se ha pulsado le input");
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
