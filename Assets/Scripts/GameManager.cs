@@ -18,6 +18,15 @@ public class GameManager : MonoBehaviour
 
     [Header("Pausemenu")]
     public PanelController pauseScreen;
+    [Header("EndGameMenu")]
+    public PanelController gameOverScreen;
+    public TMP_Text finalSoulsText;
+    public TMP_Text maxSoulsText;
+    public TMP_Text newMaxSoulLabel;
+    public TMP_Text finalEnemiesText;
+    public TMP_Text maxEnemiesText;
+    public TMP_Text newMaxEnemiesLabel;
+
     [Header("HUD")]
     private int collectableCount = 0;
     public TMP_Text collectableText;
@@ -30,8 +39,7 @@ public class GameManager : MonoBehaviour
     public GameState currentState;
     //Almacena el estado previo del juego
     public GameState previousState;
-    //Booleana para comprobar si ha terminado la partida
-    public bool isGameOver = false;
+   
 
     
 
@@ -43,13 +51,15 @@ public class GameManager : MonoBehaviour
         }
 
         currentState = GameState.Game;
-        isGameOver = false;
+        
     }
     // Start is called before the first frame update
     void Start()
     {
         collectableText.text=collectableCount.ToString();
         enemyCollectableText.text = enemyCount.ToString();
+        maxSoulsText.text = DataManager.instance.maxSouls.ToString();
+        maxEnemiesText.text = DataManager.instance.maxEnemies.ToString();
         //al inicio nos aseguramos de que suene la musica correcta
         MusicManager.instance.PlayGame();
         
@@ -67,6 +77,32 @@ public class GameManager : MonoBehaviour
         collectableText.text = collectableCount.ToString();
     }
 
+    public void EndGame()
+    {
+        if(collectableCount > DataManager.instance.maxSouls)
+        {
+            newMaxSoulLabel.enabled = true;
+            DataManager.instance.maxSouls = collectableCount;
+            DataManager.instance.Save();
+            maxSoulsText.text = collectableCount.ToString();
+        }
+        if(enemyCount > DataManager.instance.maxEnemies)
+        {
+            newMaxEnemiesLabel.enabled = true;
+            DataManager.instance.maxEnemies = enemyCount;
+            DataManager.instance.Save();
+            maxEnemiesText.text = enemyCount.ToString();
+        }
+        finalSoulsText.text = collectableCount.ToString();
+        finalEnemiesText.text = enemyCount.ToString();
+        // cambia el estado del juego
+        ChangeState(GameState.GameOver);
+        // pausa el juego
+        Time.timeScale = 0f;
+
+        // activa la pantalla de pausa
+        gameOverScreen.SetCanvasGroupActive(true);
+    }
     public void EnemyCount(int value)
     {
         enemyCount += value;

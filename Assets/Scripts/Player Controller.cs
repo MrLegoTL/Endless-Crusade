@@ -589,7 +589,12 @@ public class PlayerController : MonoBehaviour
         rigidBody.velocity = Vector2.zero;
         //Indicamos al animator que ejecute la animcaion de muerte
         animator.SetBool("Dead", true);
+        Invoke("EndGame", 1f);
+    }
 
+    void EndGame()
+    {
+        GameManager.instance.EndGame();
     }
 
     /// <summary>
