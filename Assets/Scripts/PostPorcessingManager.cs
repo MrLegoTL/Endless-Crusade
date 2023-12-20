@@ -9,6 +9,8 @@ public class PostPorcessingManager : MonoBehaviour
     [SerializeField]
     private PostProcessVolume _postProcessVolume;
     private ChromaticAberration _chromaticAberration;
+    private Color _bloomColor = new Color(49f, 0f, 255f);
+    private Bloom _bloom;
     public float timePostProcessing;
   
 
@@ -16,29 +18,52 @@ public class PostPorcessingManager : MonoBehaviour
     {
         _postProcessVolume =  GetComponent<PostProcessVolume>();
         _postProcessVolume.profile.TryGetSettings(out _chromaticAberration);
+        _postProcessVolume.profile.TryGetSettings(out _bloom);
+
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            _chromaticAberration.active= false;
-        }
-    }
+  
     public void ActivePowerPostProcess()
     {
-     
-            _chromaticAberration.active =true;
-            //_chromaticAberration.intensity.value = 0.5f;
-        
-       
-        
-        
+        //Chromatic Aberration
+        _chromaticAberration.active = true;        
+        _chromaticAberration.intensity.value = 0.5f;
+        //Bloom
+        _bloom.active = true;
+        _bloom.intensity.value = 40;
+        _bloom.threshold.value = 0.8f;
+        _bloom.diffusion.value = 4.5f;
+        _bloom.anamorphicRatio.value = 1f;
+        _bloom.color.value = new Color(0.19f,0,1,1);
+
+
     }
+
     public void DesactivePowerPostProcess()
     {
         _chromaticAberration.active = false;
         _chromaticAberration.intensity.value = 0;
+        _bloom.active = false;
     }
     
+    public void ActiveImmunityPostProcess()
+    {
+        //Chromatic Aberration
+        _chromaticAberration.active = true;
+        _chromaticAberration.intensity.value = 0.5f;
+        //Bloom
+        _bloom.active = true;
+        _bloom.intensity.value = 40;
+        _bloom.threshold.value = 0.8f;
+        _bloom.diffusion.value = 4.5f;
+        _bloom.anamorphicRatio.value = 1f;
+        _bloom.color.value = new Color(0, 1, 1, 1);
+    }
+
+    public void DesactiveImmunityPostProcess()
+    {
+        _chromaticAberration.active = false;
+        _chromaticAberration.intensity.value = 0;
+        _bloom.active = false;
+    }
     
 }

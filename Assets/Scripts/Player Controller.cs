@@ -380,6 +380,11 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger("Power");
             PickUp();
         }
+        else if (collision.CompareTag("PickUpImmunity"))
+        {
+            animator.SetTrigger("Immunity");
+            PickUp();
+        }
     }
     void PickUp()
     {
@@ -746,6 +751,7 @@ public class PlayerController : MonoBehaviour
         {
             posProcess.ActivePowerPostProcess();
         }
+        PowerParticles.startColor = new Color(0.44f, 0, 1, 1);
         PowerParticles.Play();
         //Inicializamos el contador  de tiempo
         powerUpCounter = duration;
@@ -780,6 +786,56 @@ public class PlayerController : MonoBehaviour
         powerUpCoroutine = StartCoroutine(PowerUpTime(duration));
     }
 
+    /// <summary>
+    /// Contador de timepo para controlar la duracion del powerUp
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ImmunityPowerUpTime(float duration)
+    {
+        isImmune = true;
+        speed += 1;
+        rollSpeed += 1;
+        PostPorcessingManager posProcess = FindObjectOfType<PostPorcessingManager>();
+        if (posProcess != null)
+        {
+            posProcess.ActiveImmunityPostProcess();
+        }
+        PowerParticles.startColor = new Color(0,1,1,1);
+        PowerParticles.Play();
+        //Inicializamos el contador  de tiempo
+        powerUpCounter = duration;
+        //mientras el contador el timepo transcurrido desde el ultimo frame
+        while (powerUpCounter > 0)
+        {
+            powerUpCounter -= Time.deltaTime;
+            //no hacemos ninguna espera 
+            yield return null;
+
+        }
+        if (powerUpCounter <= 0)
+        {
+            isImmune = false;
+            speed-= 1;
+            rollSpeed -= 1;
+            PowerParticles.Stop();
+            if (posProcess != null)
+            {
+                posProcess.DesactiveImmunityPostProcess();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Activa el PowerUp
+    /// </summary>
+    public void ActivateImmunityPowerUp(float duration)
+    {
+
+        //si extiste la corrutina la detenemos
+        if (powerUpCoroutine != null) StopCoroutine(powerUpCoroutine);
+        //inicimaos la corrutina nuevamente
+        powerUpCoroutine = StartCoroutine(ImmunityPowerUpTime(duration));
+    }
     //-------------------------------------- Menu de Chetos --------------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------------------------------------------------------
     public void SetImmunity()

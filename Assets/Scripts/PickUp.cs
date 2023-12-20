@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //cremaos un tipo de enumerado para especificar el tipo de coleccionable
-public enum CollectableType { collectable, powerup, HealthGem}
+public enum CollectableType { collectable, powerup, HealthGem, ImmunityGem}
 
 //este script requerira que exita un componente de tipo AudioSource
 [RequireComponent(typeof(AudioSource))]
@@ -46,6 +46,10 @@ public class PickUp : MonoBehaviour
                 case CollectableType.HealthGem:
                     player = collision.GetComponent<PlayerController>();
                     if(player!=null)player.RestoredHealth(healthToRestore);
+                    break;
+                case CollectableType.ImmunityGem:
+                    player = collision.GetComponent<PlayerController>();
+                    if (player != null) player.ActivateImmunityPowerUp(timeMoreDamage);
                     break;
                 default:
                     break;

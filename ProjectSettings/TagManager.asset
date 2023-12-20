@@ -10,6 +10,7 @@ TagManager:
   - PickUpPower
   - PickUpHealth
   - Undefined
+  - PickUpImmunity
   layers:
   - Default
   - TransparentFX
