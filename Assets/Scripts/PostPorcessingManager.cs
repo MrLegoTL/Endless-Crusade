@@ -65,5 +65,24 @@ public class PostPorcessingManager : MonoBehaviour
         _chromaticAberration.intensity.value = 0;
         _bloom.active = false;
     }
-    
+    public void ActiveSoulPostProcess()
+    {
+        //Chromatic Aberration
+        _chromaticAberration.active = true;
+        _chromaticAberration.intensity.value = 0.5f;
+        //Bloom
+        _bloom.active = true;
+        _bloom.intensity.value = 40;
+        _bloom.threshold.value = 0.8f;
+        _bloom.diffusion.value = 4.5f;
+        _bloom.anamorphicRatio.value = 1f;
+        _bloom.color.value = new Color(0.75f, 0.7f, 0.3f, 1);
+    }
+
+    public void DesactiveSoulPostProcess()
+    {
+        _chromaticAberration.active = false;
+        _chromaticAberration.intensity.value = 0;
+        _bloom.active = false;
+    }
 }

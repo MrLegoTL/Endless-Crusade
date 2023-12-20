@@ -269,6 +269,7 @@ MonoBehaviour:
   isInvincible: 0
   timeInvincible: 2
   enemyDeathCount: 1
+  hitForce: 2
   attackManager: {fileID: 6604494337148306269}
   attackArea: 0.2
   attackDamage: 10

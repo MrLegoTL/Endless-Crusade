@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text enemyCollectableText;
 
 
-
+    private PlayerController player;
     //Alamcena el esatdo actual del juego
     public GameState currentState;
     //Almacena el estado previo del juego
@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player =FindObjectOfType<PlayerController>();
         collectableText.text=collectableCount.ToString();
         enemyCollectableText.text = enemyCount.ToString();
         maxSoulsText.text = DataManager.instance.maxSouls.ToString();
@@ -72,6 +73,10 @@ public class GameManager : MonoBehaviour
     {
         //incrementamos el numero de coleccionables recogidos
         collectableCount += value;
+        if (collectableCount % 30 == 0)
+        {
+            player.ActiveSoulPowerUp(5);
+        }
         //Para que en el contador no salga negativo
         collectableCount = Mathf.Clamp(collectableCount, 0, collectableCount);
         collectableText.text = collectableCount.ToString();

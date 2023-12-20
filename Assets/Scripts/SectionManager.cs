@@ -158,11 +158,14 @@ public class SectionManager : MonoBehaviour
 
     void ChangeBackground()
     {
-        if ((sectionCount == 16))
+        if ((sectionCount == 15))
         {
-            backgroundsFD.SetActive(false);
-           backgroundsFN.SetActive(true);
+            Invoke("ActiveAndDesactiveBackground", 2);
         }
     }
-    
+    void ActiveAndDesactiveBackground()
+    {
+        backgroundsFD.SetActive(false);
+        backgroundsFN.SetActive(true);
+    }
 }

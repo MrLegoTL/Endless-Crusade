@@ -740,7 +740,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Contador de timepo para controlar la duracion del powerUp
+    /// Contador de timepo para controlar la duracion del powerUp de daño
     /// </summary>
     /// <returns></returns>
     private IEnumerator PowerUpTime(float duration)
@@ -775,7 +775,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Activa el PowerUp
+    /// Activa el PowerUp de daño
     /// </summary>
     public void ActivatePowerUp(float duration)
     {
@@ -784,10 +784,11 @@ public class PlayerController : MonoBehaviour
         if (powerUpCoroutine != null) StopCoroutine(powerUpCoroutine);
         //inicimaos la corrutina nuevamente
         powerUpCoroutine = StartCoroutine(PowerUpTime(duration));
+        Debug.Log("Seha activado el Power");
     }
 
     /// <summary>
-    /// Contador de timepo para controlar la duracion del powerUp
+    /// Contador de timepo para controlar la duracion del powerUp de inmunidad
     /// </summary>
     /// <returns></returns>
     private IEnumerator ImmunityPowerUpTime(float duration)
@@ -824,16 +825,9 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-    public void SoulPowerUp()
-    {
-        if (GameManager.instance.collectableCount % 5 == 0)
-        {
-            ActivatePowerUp(powerUpCounter);
-        }
-    }
+  
     /// <summary>
-    /// Activa el PowerUp
+    /// Activa el PowerUp de Inmunidad
     /// </summary>
     public void ActivateImmunityPowerUp(float duration)
     {
@@ -843,6 +837,53 @@ public class PlayerController : MonoBehaviour
         //inicimaos la corrutina nuevamente
         powerUpCoroutine = StartCoroutine(ImmunityPowerUpTime(duration));
     }
+
+    private IEnumerator SoulPowerUp(float duration)
+    {
+        isImmune = true;
+        jumpForce += 1;
+        speed += 1;
+        rollSpeed += 1;
+        PostPorcessingManager posProcess = FindObjectOfType<PostPorcessingManager>();
+        if (posProcess != null)
+        {
+            posProcess.ActiveSoulPostProcess();
+        }
+        
+        //Inicializamos el contador  de tiempo
+        powerUpCounter = duration;
+        //mientras el contador el timepo transcurrido desde el ultimo frame
+        while (powerUpCounter > 0)
+        {
+            powerUpCounter -= Time.deltaTime;
+            //no hacemos ninguna espera 
+            yield return null;
+
+        }
+        if (powerUpCounter <= 0)
+        {
+            isImmune = false;
+            speed -= 1;
+            rollSpeed -= 1;
+            jumpForce -= 1;
+            if (posProcess != null)
+            {
+                posProcess.DesactiveSoulPostProcess();
+            }
+        }
+        
+    }
+    /// <summary>
+    /// Activa el PowerUp de Recogida de almas
+    /// </summary>
+    public void ActiveSoulPowerUp(float duration)
+    {
+        //si extiste la corrutina la detenemos
+        if (powerUpCoroutine != null) StopCoroutine(powerUpCoroutine);
+        //inicimaos la corrutina nuevamente
+        powerUpCoroutine = StartCoroutine(SoulPowerUp(duration));
+    }
+
     //-------------------------------------- Menu de Chetos --------------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------------------------------------------------------
     public void SetImmunity()
