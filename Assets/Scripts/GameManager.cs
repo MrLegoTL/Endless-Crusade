@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text newMaxEnemiesLabel;
 
     [Header("HUD")]
-    private int collectableCount = 0;
+    public int collectableCount = 0;
     public TMP_Text collectableText;
     private int enemyCount = 0;
     public TMP_Text enemyCollectableText;

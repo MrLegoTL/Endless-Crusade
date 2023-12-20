@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer playerSprite;
     [Header("PowerUp")]
     //para realizar el contador inteno de la duración del powerup
-    private float powerUpCounter = 0f;
+    public float powerUpCounter = 0f;
     //corrutina para gestionar la duración del powerUp
     private Coroutine powerUpCoroutine;
     public ParticleSystem PowerParticles;
@@ -825,6 +825,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void SoulPowerUp()
+    {
+        if (GameManager.instance.collectableCount % 5 == 0)
+        {
+            ActivatePowerUp(powerUpCounter);
+        }
+    }
     /// <summary>
     /// Activa el PowerUp
     /// </summary>

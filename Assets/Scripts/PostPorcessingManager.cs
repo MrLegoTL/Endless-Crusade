@@ -56,7 +56,7 @@ public class PostPorcessingManager : MonoBehaviour
         _bloom.threshold.value = 0.8f;
         _bloom.diffusion.value = 4.5f;
         _bloom.anamorphicRatio.value = 1f;
-        _bloom.color.value = new Color(0, 1, 1, 1);
+        _bloom.color.value = new Color(0.06f, 0.6f, 0.8f, 1);
     }
 
     public void DesactiveImmunityPostProcess()
