@@ -1,40 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
 
 public class PostPorcessingManager : MonoBehaviour
 {
+    [SerializeField]
     private PostProcessVolume _postProcessVolume;
-    private AmbientOcclusion _ambientOcclusion;
-
-    private float myValue;
+    private ChromaticAberration _chromaticAberration;
+    public float timePostProcessing;
+  
 
     private void Start()
     {
         _postProcessVolume =  GetComponent<PostProcessVolume>();
-        _postProcessVolume.profile.TryGetSettings(out _ambientOcclusion);
+        _postProcessVolume.profile.TryGetSettings(out _chromaticAberration);
     }
-
-    public void AmbientOcclusionOnOff(bool on)
+    private void Update()
     {
-        if (on)
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            _ambientOcclusion.active = true;
-        }
-        else
-        {
-            _ambientOcclusion.active = false;
+            _chromaticAberration.active= false;
         }
     }
-
-    public void GeneralSettings()
+    public void ActivePowerPostProcess()
     {
-        _ambientOcclusion.mode.value = AmbientOcclusionMode.MultiScaleVolumetricObscurance;
-        _ambientOcclusion.intensity.value = myValue;
-        _ambientOcclusion.radius.value = myValue;
-        _ambientOcclusion.quality.value = AmbientOcclusionQuality.Medium;
-        _ambientOcclusion.color.value = Color.blue;
-        _ambientOcclusion.ambientOnly.value = true;
+     
+            _chromaticAberration.active =true;
+            //_chromaticAberration.intensity.value = 0.5f;
+        
+       
+        
+        
     }
+    public void DesactivePowerPostProcess()
+    {
+        _chromaticAberration.active = false;
+        _chromaticAberration.intensity.value = 0;
+    }
+    
+    
 }

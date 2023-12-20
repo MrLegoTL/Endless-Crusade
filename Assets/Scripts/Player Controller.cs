@@ -103,11 +103,16 @@ public class PlayerController : MonoBehaviour
     private bool moreDamage = false;
     private bool moreJumpForce;
 
+    [Header("FeedBack")]
+    private Coroutine colorFlashCoroutine;
+    private SpriteRenderer playerSprite;
     [Header("PowerUp")]
     //para realizar el contador inteno de la duración del powerup
     private float powerUpCounter = 0f;
     //corrutina para gestionar la duración del powerUp
     private Coroutine powerUpCoroutine;
+    public ParticleSystem PowerParticles;
+    
 
     //referencia al animator
     public Animator animator;
@@ -117,6 +122,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        playerSprite = GetComponentInChildren<SpriteRenderer>();
         enemy = GetComponent<Enemy>();
         playerHealth = playerMaxHealth;
         healthBar.InitializeHealthBar(playerHealth);
@@ -316,7 +322,7 @@ public class PlayerController : MonoBehaviour
     public void OnDash(InputAction.CallbackContext context)
     {
         
-        if (canRoll && grounded && !isAirAttack && !isPickUp && !canAttack)
+        if (canRoll && grounded && !isAirAttack && !isPickUp )
         {
             StartCoroutine(Roll());
         }
@@ -384,7 +390,49 @@ public class PlayerController : MonoBehaviour
         
         Invoke("RecoverMovement", 1);
     }
+    [ContextMenu("FlashTest")]
+    public void StartColorFlashTest()
+    {
+        StartColorFlash(Color.red, 0.4f);
+    }
+    /// <summary>
+    /// Asigna el color del flash e inicia la corrutina de recuperacion de color durante el timpo indicado
+    /// </summary>
+    /// <param name="color"></param>
+    /// <param name="time"></param>
+    public void StartColorFlash(Color color, float time)
+    {
+        //fijamos el color de flash
+        playerSprite.color = color;
+        //evaluamos si la corrutina se estaba ejecutando previamente, en cuyo caso detemos su ejecucion
+        if (colorFlashCoroutine != null) StopCoroutine(colorFlashCoroutine);
 
+        //iniciamos la corrutina que recuperara el color en el tiempo indicado
+        colorFlashCoroutine = StartCoroutine(ColorRecover(time));
+    }
+
+    /// <summary>
+    /// Recupera el color original en el tiempo indicado
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
+    public IEnumerator ColorRecover(float time)
+    {
+        //creamos una variable para contar el tiempo de recuperacion
+        float counter = 0;
+        //almacenamod el valor inicial del color antes del lerp
+        Color startColor = playerSprite.color;
+
+        while (counter < time)
+        {
+            //realizamos una interpolacion lineal del color, para que vaya recuperando el color blanco gradualmente en el tiempo indicado
+            playerSprite.color = Color.Lerp(startColor,
+                                            Color.white,
+                                            counter / time);
+            counter += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (isInvincible || (canRoll && collision.collider.CompareTag("Enemy")))
@@ -693,19 +741,30 @@ public class PlayerController : MonoBehaviour
     private IEnumerator PowerUpTime(float duration)
     {
         damageAttack += 10;
+        PostPorcessingManager posProcess = FindObjectOfType<PostPorcessingManager>();
+        if(posProcess != null)
+        {
+            posProcess.ActivePowerPostProcess();
+        }
+        PowerParticles.Play();
         //Inicializamos el contador  de tiempo
         powerUpCounter = duration;
         //mientras el contador el timepo transcurrido desde el ultimo frame
         while (powerUpCounter > 0)
         {
             powerUpCounter -= Time.deltaTime;
-            //no hacemos ninguna espera
+            //no hacemos ninguna espera 
             yield return null;
             
         }
         if(powerUpCounter <= 0)
         {
             damageAttack -= 10;
+            PowerParticles.Stop();
+            if(posProcess != null)
+            {
+                posProcess.DesactivePowerPostProcess();
+            }
         }
     }
 

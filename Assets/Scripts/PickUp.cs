@@ -23,6 +23,13 @@ public class PickUp : MonoBehaviour
     public Collider2D collider;
     public SpriteRenderer spriteRenderer;
      PlayerController player;
+
+    [Header("FeedBack")]
+    [Tooltip("Color utilizado para flashear al jugador cuando recoge el coleccionable")]
+    public Color flashColor = Color.white;
+    [Tooltip("Duracion del flash de color")]
+    public float flashTime = 0.4f;
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -34,7 +41,7 @@ public class PickUp : MonoBehaviour
                     break;
                 case CollectableType.powerup:
                      player = collision.GetComponent<PlayerController>();
-                    if (player != null) player.ActivatePowerUp(timeMoreDamage);
+                    if (player != null) player.ActivatePowerUp(timeMoreDamage);           
                     break;
                 case CollectableType.HealthGem:
                     player = collision.GetComponent<PlayerController>();
@@ -44,9 +51,10 @@ public class PickUp : MonoBehaviour
                     break;
             }
 
-           
+
             
             EffectSound();
+            FeedBack(collision.gameObject);
             DeactivateCollactable();
         }
     }
@@ -61,6 +69,7 @@ public class PickUp : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         audioSource.loop = false;   
         audioSource.playOnAwake = false;
+        
     }
 
     /// <summary>
@@ -81,6 +90,19 @@ public class PickUp : MonoBehaviour
     {
         audioSource.clip = audioClip;
         audioSource.Play();
+    }
+    public void FeedBack(GameObject other)
+    {
+        Debug.Log("FeedBack");
+        //variable para almacenar al Player Controller
+        PlayerController playerController;
+
+        //Intenta recuperar el componente, si lo consigue, entrara en el if, con la informacion volcada en la variable
+        if (other.TryGetComponent(out playerController))
+        {
+            //si lo consigue recuperar el compoonente aplicamos el efecto de flash
+            playerController.StartColorFlash(flashColor, flashTime);
+        }
     }
     //private void OnTriggerEnter2D(Collider col)
     //{
