@@ -22,7 +22,7 @@ public class SectionManager : MonoBehaviour
     private Sections changeSection;
     [SerializeField]
     private bool hasChangedSection = false;
-    
+    public Sections cuevaInitialSection;
     public Sections intialSection;
     [SerializeField]
     public int maxSections =10;
@@ -73,47 +73,49 @@ public class SectionManager : MonoBehaviour
     [ContextMenu("SpawnSectionTest")]
     public void SpawnSection()
     {
-         Sections newSection;
+        Sections newSection;
+        if ((sectionCount / maxSections) == 0)
+        {
 
-         
-        
-        
+            //Obtenemos una nueva sección del array de forma aleatoria
 
-            if ((sectionCount/maxSections) == 0)
+            newSection = sectionPrefabsFD[Random.Range(0, sectionPrefabsFD.Length)];
+            Debug.Log("Sigue en FD");
+
+
+
+
+        }
+        else if ((sectionCount / maxSections) == 1)
+        {
+            if (maxSections * 1 == sectionCount)
             {
-
-                //Obtenemos una nueva sección del array de forma aleatoria
-                
-                newSection = sectionPrefabsFD[Random.Range(0, sectionPrefabsFD.Length)];
-                Debug.Log("Sigue en FD");
-               
-                
-
-                
-            }
-            else if((sectionCount / maxSections) == 1) 
-            {
-                if (maxSections * 1 == sectionCount)
-                {
-                    newSection = intialSection;
-                
-            }
-                else 
-                {
-                    
-                    newSection = sectionPrefabsFN[Random.Range(0, sectionPrefabsFN.Length)];
-                    Debug.Log("Ha cambiado a FN");
-                }
-                
+                newSection = intialSection;
 
             }
             else
             {
 
-                
-                newSection = sectionPrefabsC[Random.Range(0, sectionPrefabsC.Length)];
-                Debug.Log("Ha cambiado a C");
+                newSection = sectionPrefabsFN[Random.Range(0, sectionPrefabsFN.Length)];
+                Debug.Log("Ha cambiado a FN");
             }
+
+
+        }
+
+        else if (sectionCount == 17)
+        {
+            newSection = cuevaInitialSection;
+            Debug.Log("Ha aparecido cueva inicial");
+        }
+        else
+        {
+          
+            newSection = sectionPrefabsC[Random.Range(0, sectionPrefabsC.Length)];
+            Debug.Log("Ha cambiado a C");
+        }
+             
+            
             
        
         //else
@@ -161,11 +163,19 @@ public class SectionManager : MonoBehaviour
         if ((sectionCount == 15))
         {
             Invoke("ActiveAndDesactiveBackground", 2);
+        }else if((sectionCount == 25))
+        {
+            Invoke("ActiveAndDesactiveBackgroundCueva", 2);
         }
     }
     void ActiveAndDesactiveBackground()
     {
         backgroundsFD.SetActive(false);
         backgroundsFN.SetActive(true);
+    }
+    void ActiveAndDesactiveBackgroundCueva()
+    {
+        backgroundsFN.SetActive(false);
+        backgroundsC.SetActive(true);
     }
 }
