@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
     {
         //incrementamos el numero de coleccionables recogidos
         collectableCount += value;
-        if (collectableCount % 30 == 0)
+        if (collectableCount % 1 == 0)
         {
             player.ActiveSoulPowerUp(5);
         }
