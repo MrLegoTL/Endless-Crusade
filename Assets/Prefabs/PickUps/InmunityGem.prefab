@@ -283,6 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 3
   timeMoreDamage: 5
+  timeImmunityPowerUp: 5
   healthToRestore: 0
   soulValue: 1
   audioClip: {fileID: 8300000, guid: 886cc406ae943d941a392102030c2874, type: 3}
@@ -290,7 +291,7 @@ MonoBehaviour:
   collider: {fileID: 6764414022385029394}
   spriteRenderer: {fileID: 5493683246353893933}
   flashColor: {r: 1, g: 1, b: 1, a: 1}
-  flashTime: 5
+  flashTime: 0
 --- !u!1 &3417022820783664666
 GameObject:
   m_ObjectHideFlags: 0

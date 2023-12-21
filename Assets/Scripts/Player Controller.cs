@@ -837,9 +837,9 @@ public class PlayerController : MonoBehaviour
     {
 
         //si extiste la corrutina la detenemos
-        if (powerUpCoroutine != null) StopCoroutine(powerUpCoroutine);
+        if (immunityCoroutine != null) StopCoroutine(immunityCoroutine);
         //inicimaos la corrutina nuevamente
-        powerUpCoroutine = StartCoroutine(ImmunityPowerUpTime(timeImmunity));
+        immunityCoroutine = StartCoroutine(ImmunityPowerUpTime(timeImmunity));
     }
 
     private IEnumerator SoulPowerUp(float timeSoul)
