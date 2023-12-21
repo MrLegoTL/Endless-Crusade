@@ -14,6 +14,7 @@ public class PickUp : MonoBehaviour
     public CollectableType type = CollectableType.collectable;
     [Header("PowerUp")]
     public float timeMoreDamage;
+    public float timeImmunityPowerUp;
     [Header("Health Gem")]
     public float healthToRestore;
     [Header("SoulGem")]
@@ -49,7 +50,7 @@ public class PickUp : MonoBehaviour
                     break;
                 case CollectableType.ImmunityGem:
                     player = collision.GetComponent<PlayerController>();
-                    if (player != null) player.ActivateImmunityPowerUp(timeMoreDamage);
+                    if (player != null) player.ActivateImmunityPowerUp(timeImmunityPowerUp);
                     break;
                 default:
                     break;

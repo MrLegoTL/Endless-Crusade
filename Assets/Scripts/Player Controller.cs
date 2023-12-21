@@ -109,8 +109,12 @@ public class PlayerController : MonoBehaviour
     [Header("PowerUp")]
     //para realizar el contador inteno de la duración del powerup
     public float powerUpCounter = 0f;
+    public float immunityPowerUpCounter;
+    public float soulPowerUpCounter;
     //corrutina para gestionar la duración del powerUp
     private Coroutine powerUpCoroutine;
+    private Coroutine immunityCoroutine;
+    private Coroutine soulCoroutine;
     public ParticleSystem PowerParticles;
     
 
@@ -791,7 +795,7 @@ public class PlayerController : MonoBehaviour
     /// Contador de timepo para controlar la duracion del powerUp de inmunidad
     /// </summary>
     /// <returns></returns>
-    private IEnumerator ImmunityPowerUpTime(float duration)
+    private IEnumerator ImmunityPowerUpTime(float timeImmunity)
     {
         isImmune = true;
         speed += 1;
@@ -804,16 +808,16 @@ public class PlayerController : MonoBehaviour
         PowerParticles.startColor = new Color(0,1,1,1);
         PowerParticles.Play();
         //Inicializamos el contador  de tiempo
-        powerUpCounter = duration;
+        immunityPowerUpCounter = timeImmunity;
         //mientras el contador el timepo transcurrido desde el ultimo frame
-        while (powerUpCounter > 0)
+        while (immunityPowerUpCounter > 0)
         {
-            powerUpCounter -= Time.deltaTime;
+            immunityPowerUpCounter -= Time.deltaTime;
             //no hacemos ninguna espera 
             yield return null;
 
         }
-        if (powerUpCounter <= 0)
+        if (immunityPowerUpCounter <= 0)
         {
             isImmune = false;
             speed-= 1;
@@ -829,16 +833,16 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Activa el PowerUp de Inmunidad
     /// </summary>
-    public void ActivateImmunityPowerUp(float duration)
+    public void ActivateImmunityPowerUp(float timeImmunity)
     {
 
         //si extiste la corrutina la detenemos
         if (powerUpCoroutine != null) StopCoroutine(powerUpCoroutine);
         //inicimaos la corrutina nuevamente
-        powerUpCoroutine = StartCoroutine(ImmunityPowerUpTime(duration));
+        powerUpCoroutine = StartCoroutine(ImmunityPowerUpTime(timeImmunity));
     }
 
-    private IEnumerator SoulPowerUp(float duration)
+    private IEnumerator SoulPowerUp(float timeSoul)
     {
         isImmune = true;
         jumpForce += 1;
@@ -851,16 +855,16 @@ public class PlayerController : MonoBehaviour
         }
         
         //Inicializamos el contador  de tiempo
-        powerUpCounter = duration;
+        soulPowerUpCounter = timeSoul;
         //mientras el contador el timepo transcurrido desde el ultimo frame
-        while (powerUpCounter > 0)
+        while (soulPowerUpCounter > 0)
         {
-            powerUpCounter -= Time.deltaTime;
+            soulPowerUpCounter -= Time.deltaTime;
             //no hacemos ninguna espera 
             yield return null;
 
         }
-        if (powerUpCounter <= 0)
+        if (soulPowerUpCounter <= 0)
         {
             isImmune = false;
             speed -= 1;
@@ -876,12 +880,12 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Activa el PowerUp de Recogida de almas
     /// </summary>
-    public void ActiveSoulPowerUp(float duration)
+    public void ActiveSoulPowerUp(float timeSoul)
     {
         //si extiste la corrutina la detenemos
-        if (powerUpCoroutine != null) StopCoroutine(powerUpCoroutine);
+        if (soulCoroutine != null) StopCoroutine(soulCoroutine);
         //inicimaos la corrutina nuevamente
-        powerUpCoroutine = StartCoroutine(SoulPowerUp(duration));
+        soulCoroutine = StartCoroutine(SoulPowerUp(timeSoul));
     }
 
     //-------------------------------------- Menu de Chetos --------------------------------------------------------------------------------------------
