@@ -42,7 +42,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7818599597466176974}
   - component: {fileID: 4315869694500124545}
-  - component: {fileID: 44652983462042566}
   - component: {fileID: 8248618188053510904}
   - component: {fileID: 1096474318075231006}
   - component: {fileID: 6598356016166405141}
@@ -91,58 +90,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!212 &44652983462042566
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5384568352584848121}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!50 &8248618188053510904
 Rigidbody2D:
   serializedVersion: 4
@@ -317,12 +264,12 @@ MonoBehaviour:
   timeMoreDamage: 5
   healthToRestore: 0
   soulValue: 1
-  audioClip: {fileID: 0}
+  audioClip: {fileID: 8300000, guid: 886cc406ae943d941a392102030c2874, type: 3}
   audioSource: {fileID: 6598356016166405141}
   collider: {fileID: 1096474318075231006}
-  spriteRenderer: {fileID: 44652983462042566}
+  spriteRenderer: {fileID: 2771603542301271004}
   flashColor: {r: 1, g: 1, b: 1, a: 1}
-  flashTime: 0.4
+  flashTime: 0
 --- !u!1 &8747540395790287006
 GameObject:
   m_ObjectHideFlags: 0

@@ -100,14 +100,22 @@ public class SectionManager : MonoBehaviour
                 Debug.Log("Ha cambiado a FN");
             }
 
-
+            
         }
-
-        else if (sectionCount == 17)
+        else if ((sectionCount / maxSections) == 2)
         {
-            newSection = cuevaInitialSection;
-            Debug.Log("Ha aparecido cueva inicial");
+            if (maxSections *2 ==sectionCount)
+            {
+                newSection = cuevaInitialSection;
+                Debug.Log("Ha aparecido cueva inicial");
+            }
+            else
+            {
+                newSection = sectionPrefabsC[Random.Range(0, sectionPrefabsC.Length)];
+                Debug.Log("Ha cambiado a C");
+            }
         }
+       
         else
         {
           
