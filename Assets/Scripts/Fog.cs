@@ -31,7 +31,9 @@ public class Fog : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(playerCheck.position, sizePlayerCheck);
     }
-
+    /// <summary>
+    /// Metodo para que la niebla se mueva automaticamente hacia el jugador
+    /// </summary>
     public void Movement()
     {
         if (!autoMove) return;

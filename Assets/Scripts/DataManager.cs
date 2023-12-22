@@ -29,7 +29,9 @@ public class DataManager : MonoBehaviour
         //almacenamos el record de distancia recorrida
         PlayerPrefs.SetInt("maxEnemies", maxEnemies);
     }
-
+    /// <summary>
+    /// Cargara los datos almacenados
+    /// </summary>
     public void Load()
     {
         //comprobamos si existe alamcenada la clave

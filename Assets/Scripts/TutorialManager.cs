@@ -29,10 +29,7 @@ public class TutorialManager : MonoBehaviour
         {
             Debug.Log("se ha pulsado le input");
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            ////EVALUAMOS EL COLOR QUE DEBE TENER LA IMAGEN DE FADE EN RELACION AL TIEMPO TRANSCURRIDO
-            //fadeImage.color = fadeColorGradient.Evaluate(timeCounter / tutorialDuration);
-            //// si el contador de tiempo a terminador, cambiamos a la escena indicada
-            //if (timeCounter >= tutorialDuration)  
+              
         }
     }
 }

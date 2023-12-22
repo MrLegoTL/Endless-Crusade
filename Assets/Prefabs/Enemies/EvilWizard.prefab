@@ -260,7 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ce3d1a0e33d59849bb0315d7214c511, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyHealth: 100
+  enemyHealth: 75
   rb2D: {fileID: 0}
   playerLayer:
     serializedVersion: 2

@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
     {
         //incrementamos el numero de coleccionables recogidos
         collectableCount += value;
-        if (collectableCount % 1 == 0)
+        if (collectableCount % 30 == 0)
         {
             player.ActiveSoulPowerUp(5);
         }
@@ -81,7 +81,9 @@ public class GameManager : MonoBehaviour
         collectableCount = Mathf.Clamp(collectableCount, 0, collectableCount);
         collectableText.text = collectableCount.ToString();
     }
-
+    /// <summary>
+    /// Metodo que hace referencia al Fin de partida y muestras el puntuaje
+    /// </summary>
     public void EndGame()
     {
         if(collectableCount > DataManager.instance.maxSouls)
@@ -108,6 +110,10 @@ public class GameManager : MonoBehaviour
         // activa la pantalla de pausa
         gameOverScreen.SetCanvasGroupActive(true);
     }
+    /// <summary>
+    /// Metodo que almacena el puntuaje de los enemigos eliminados
+    /// </summary>
+    /// <param name="value"></param>
     public void EnemyCount(int value)
     {
         enemyCount += value;
@@ -123,10 +129,17 @@ public class GameManager : MonoBehaviour
     {
         currentState = newState;
     }
+    /// <summary>
+    /// metodo para activar la pausa del juego con InputSystem
+    /// </summary>
+    /// <returns></returns>
     public void OnPause(InputAction.CallbackContext context)
     {
         if (context.started) CheckForPauseAndResume();
     }
+    /// <summary>
+    /// Metodo para la pausa del juego
+    /// </summary>
     public void PauseGame()
     {
         // cambia el estado del juego
@@ -153,6 +166,9 @@ public class GameManager : MonoBehaviour
         // desactiva la pantalla de pausa
         pauseScreen.SetCanvasGroupActive(false);
     }
+    /// <summary>
+    /// metodo que comprueba si esta pausado el juego y lo renauda
+    /// </summary>
     void CheckForPauseAndResume()
     {
         if (currentState == GameState.Paused)
@@ -164,6 +180,9 @@ public class GameManager : MonoBehaviour
             PauseGame();
         }
     }
+    /// <summary>
+    /// Metodo para reiniciar la partida
+    /// </summary>
     public void Restart()
     {
         //Si se reinicia la partida tras una pausa, hay que asegurar que el tiempo transcurrira con normalidad
@@ -172,8 +191,5 @@ public class GameManager : MonoBehaviour
         //recuperamos el indice de la escena actual y la cargamos nuevamente
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-    //public void MainMenu()
-    //{
-    //    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-    //}
+    
 }

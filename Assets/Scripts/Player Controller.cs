@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public bool canRoll = true;
     public bool isInvincible = false;
     
-    //public float dashCooldown;
+    
 
     [Header("Attack")]
     [SerializeField]
@@ -104,7 +104,6 @@ public class PlayerController : MonoBehaviour
     private bool moreJumpForce;
 
     [Header("FeedBack")]
-    private Coroutine colorFlashCoroutine;
     private SpriteRenderer playerSprite;
     [Header("PowerUp")]
     //para realizar el contador inteno de la duración del powerup
@@ -177,7 +176,10 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(FinishCombo(0));
         }
     }
-
+    /// <summary>
+    /// Metodo que activa activa la accion de moverse mediante el InputSystem
+    /// </summary>
+    /// <param name="context"></param>
     public void Move(InputAction.CallbackContext context)
     {
 
@@ -212,7 +214,10 @@ public class PlayerController : MonoBehaviour
 
 
     }
-
+    /// <summary>
+    /// Metodo que activa activa la accion de atacar mediante el InputSystem
+    /// </summary>
+    /// <param name="context"></param>
     public void OnAttack(InputAction.CallbackContext context)
     {
 
@@ -221,22 +226,7 @@ public class PlayerController : MonoBehaviour
             Golpe();
             
             
-        }
-        
-        //if (context.performed )
-        //{
-
-        //    if (canAttack)
-        //    {
-        //        StartCoroutine(Attack());
-        //    }
-            
-             
-            
-        //}
-      
-        
-    
+        }                             
     }
 
     /// <summary>
@@ -268,9 +258,6 @@ public class PlayerController : MonoBehaviour
         {
             timeNextAttack = timeBetweenAttacks;
             animator.SetTrigger("Attack3");
-            //isSecondAttack = false;
-            //isAttacking = false;
-            //timeLastAttack = timeBetweenAttacks;
             rigidBody.velocity = Vector3.zero;
             canMove = false;
             StartCoroutine(FinishCombo(timeFinishCombo));
@@ -289,6 +276,11 @@ public class PlayerController : MonoBehaviour
         
         
     }
+    /// <summary>
+    /// Corrutina para Terminar el combo de ataque
+    /// </summary>
+    /// <param name="duration"></param>
+    /// <returns></returns>
     private IEnumerator FinishCombo(float duration)
     {
         
@@ -298,31 +290,10 @@ public class PlayerController : MonoBehaviour
         timeLastAttack = timeBetweenAttacks;
         Invoke("RecoverMovement", duration);
     }
-    //private IEnumerator Attack()
-    //{
-    //    canMove = false;
-    //    canAttack = false;
-
-    //    Collider2D[] objects = Physics2D.OverlapCircleAll(attackManager.position, areaAttack);
-
-    //    foreach (Collider2D collider in objects)
-    //    {
-    //        if (collider.CompareTag("Enemy"))
-    //        {                
-    //            collider.transform.GetComponent<Enemy>().TakeDamage(damageAttack);
-
-    //        }
-    //    }
-
-    //    yield return new WaitForSeconds(1f);
-
-    //    canAttack = true;
-    //    canMove = true;
-    //}
-
-
-
-
+    /// <summary>
+    /// Metodo que activa activa la accion de Roll mediante el InputSystem
+    /// </summary>
+    /// <param name="context"></param>
     public void OnDash(InputAction.CallbackContext context)
     {
         
@@ -390,6 +361,9 @@ public class PlayerController : MonoBehaviour
             PickUp();
         }
     }
+    /// <summary>
+    /// Metodo para cuando el player coga un Item no se puesdar mover
+    /// </summary>
     void PickUp()
     {
         rigidBody.velocity = Vector3.zero;
@@ -399,49 +373,7 @@ public class PlayerController : MonoBehaviour
         
         Invoke("RecoverMovement", 1);
     }
-    [ContextMenu("FlashTest")]
-    public void StartColorFlashTest()
-    {
-        StartColorFlash(Color.red, 0.4f);
-    }
-    /// <summary>
-    /// Asigna el color del flash e inicia la corrutina de recuperacion de color durante el timpo indicado
-    /// </summary>
-    /// <param name="color"></param>
-    /// <param name="time"></param>
-    public void StartColorFlash(Color color, float time)
-    {
-        //fijamos el color de flash
-        playerSprite.color = color;
-        //evaluamos si la corrutina se estaba ejecutando previamente, en cuyo caso detemos su ejecucion
-        if (colorFlashCoroutine != null) StopCoroutine(colorFlashCoroutine);
-
-        //iniciamos la corrutina que recuperara el color en el tiempo indicado
-        colorFlashCoroutine = StartCoroutine(ColorRecover(time));
-    }
-
-    /// <summary>
-    /// Recupera el color original en el tiempo indicado
-    /// </summary>
-    /// <param name="time"></param>
-    /// <returns></returns>
-    public IEnumerator ColorRecover(float time)
-    {
-        //creamos una variable para contar el tiempo de recuperacion
-        float counter = 0;
-        //almacenamod el valor inicial del color antes del lerp
-        Color startColor = playerSprite.color;
-
-        while (counter < time)
-        {
-            //realizamos una interpolacion lineal del color, para que vaya recuperando el color blanco gradualmente en el tiempo indicado
-            playerSprite.color = Color.Lerp(startColor,
-                                            Color.white,
-                                            counter / time);
-            counter += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
-    }
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (isInvincible || (canRoll && collision.collider.CompareTag("Enemy")))
@@ -477,9 +409,11 @@ public class PlayerController : MonoBehaviour
         localScale.x *= -1;
         transform.localScale = localScale;
     }
-    
-   
 
+    /// <summary>
+    /// Metodo que activa activa la accion de saltar mediante el InputSystem
+    /// </summary>
+    /// <param name="context"></param>
     public void OnJump(InputAction.CallbackContext context)
     {
         
@@ -503,17 +437,7 @@ public class PlayerController : MonoBehaviour
     /// Metodo para el salto
     /// </summary>
     public void Jump()
-    {
-        ////Si no estamos tocando el suelo abandonamos el metedo sin hacer nada
-        //if (!grounded) return;
-
-        ////reseteamos la velocidad vertical actual
-        //rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0f);
-
-        ////aplicamos un impulso vertical hacia arriba
-        //rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-
-
+    {      
         //Verifica que el player esta tocando el suelo  y si esta dentro del Coyote Time
         if (grounded || coyoteTimeCounter > 0)
         {
@@ -544,7 +468,10 @@ public class PlayerController : MonoBehaviour
 
 
     }
-
+    /// <summary>
+    /// Metodo que activa activa la accion de ataque desde arriba mediante el InputSystem
+    /// </summary>
+    /// <param name="context"></param>
     public void OnAirAttack(InputAction.CallbackContext context)
     {
         if (context.performed )
@@ -648,7 +575,9 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Dead", true);
         Invoke("EndGame", 1f);
     }
-
+    /// <summary>
+    /// Metodo que llama a la funcion de terminar partida de Game Manager
+    /// </summary>
     void EndGame()
     {
         GameManager.instance.EndGame();
@@ -703,12 +632,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //public void OnClimb(InputAction.CallbackContext context)
-    //{
-    //    //vertical = context.ReadValue<Vector2>().y;
-    //    Climb();
-    //}
-
     /// <summary>
     /// Metodo con el que player puede subir las escaleras
     /// </summary>
@@ -734,7 +657,9 @@ public class PlayerController : MonoBehaviour
         }
         animator.SetBool("isClimbing", isClimbing);
     }
-
+    /// <summary>
+    /// Metdodo para que cuando se activa se pueda hacer otros movimientos despues de algunas animaciones
+    /// </summary>
      void RecoverMovement()
     {
         canMove = true;
@@ -797,9 +722,7 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator ImmunityPowerUpTime(float timeImmunity)
     {
-        isImmune = true;
-        speed += 1;
-        rollSpeed += 1;
+        isImmune = true;    
         PostPorcessingManager posProcess = FindObjectOfType<PostPorcessingManager>();
         if (posProcess != null)
         {
@@ -819,9 +742,7 @@ public class PlayerController : MonoBehaviour
         }
         if (immunityPowerUpCounter <= 0)
         {
-            isImmune = false;
-            speed-= 1;
-            rollSpeed -= 1;
+            isImmune = false;            
             PowerParticles.Stop();
             if (posProcess != null)
             {
@@ -841,7 +762,11 @@ public class PlayerController : MonoBehaviour
         //inicimaos la corrutina nuevamente
         immunityCoroutine = StartCoroutine(ImmunityPowerUpTime(timeImmunity));
     }
-
+    /// <summary>
+    /// Corrutina para realizar los efectos para cuando obtiene este Power Up
+    /// </summary>
+    /// <param name="timeSoul"></param>
+    /// <returns></returns>
     private IEnumerator SoulPowerUp(float timeSoul)
     {
         isImmune = true;
@@ -890,11 +815,16 @@ public class PlayerController : MonoBehaviour
 
     //-------------------------------------- Menu de Chetos --------------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// Metodo que te hace inmune
+    /// </summary>
     public void SetImmunity()
     {
         isImmune = !isImmune;
     }
-
+    /// <summary>
+    /// Metodo que aumenta tu daño de ataque
+    /// </summary>
     public void MoreDamage()
     {
         moreDamage = !moreDamage;
@@ -908,6 +838,9 @@ public class PlayerController : MonoBehaviour
         }
         
     }
+    /// <summary>
+    /// Metodod que aumenta tu fuerza de salto
+    /// </summary>
     public void MoreJumpForce()
     {
         moreJumpForce=!moreJumpForce;

@@ -121,32 +121,9 @@ public class SectionManager : MonoBehaviour
           
             newSection = sectionPrefabsC[Random.Range(0, sectionPrefabsC.Length)];
             Debug.Log("Ha cambiado a C");
-        }
-             
-            
-            
-       
-        //else
-        //{
-        //    if (!hasChangedSection && sectionCount<=4 )
-        //    {
-        //        //Obtenemos una nueva sección del array de forma aleatoria
-        //        newSection = sectionPrefabsFD[Random.Range(0, sectionPrefabsFD.Length)];
-        //        Debug.Log("Sigue en FD");
-        //    }
-
-        //}
-
-
-
-
-
-        //si el contador de secciones llega a un numero determinado crea una seccion determinada
-        //if (sectionCount == 10)
-        //{
-        //    newSection = changeSection;
-        //}
-
+        }          
+                               
+      
         // vector para almacenar la desviacion a aplicar para situar la nueva plataforma
         Vector3 nextPositionOffset = Vector3.zero;
         //calculamos el offset utilizando el tamaño de las mitades actual + la mitad siguiente
@@ -166,6 +143,9 @@ public class SectionManager : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Metodo para cambiar el background cuando se cambia de bioma
+    /// </summary>
     void ChangeBackground()
     {
         if ((sectionCount == 15))
@@ -176,11 +156,17 @@ public class SectionManager : MonoBehaviour
             Invoke("ActiveAndDesactiveBackgroundCueva", 2);
         }
     }
+    /// <summary>
+    /// metodo para desactivar el primer background y activar el segundo
+    /// </summary>
     void ActiveAndDesactiveBackground()
     {
         backgroundsFD.SetActive(false);
         backgroundsFN.SetActive(true);
     }
+    /// <summary>
+    /// Metodo para desactivar el segundo background y activar el tercero
+    /// </summary>
     void ActiveAndDesactiveBackgroundCueva()
     {
         backgroundsFN.SetActive(false);

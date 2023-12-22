@@ -58,8 +58,7 @@ public class PickUp : MonoBehaviour
 
 
             
-            EffectSound();
-            FeedBack(collision.gameObject);
+            EffectSound();            
             DeactivateCollactable();
         }
     }
@@ -95,28 +94,7 @@ public class PickUp : MonoBehaviour
     {
         audioSource.clip = audioClip;
         audioSource.Play();
-    }
-    public void FeedBack(GameObject other)
-    {
-        Debug.Log("FeedBack");
-        //variable para almacenar al Player Controller
-        PlayerController playerController;
-
-        //Intenta recuperar el componente, si lo consigue, entrara en el if, con la informacion volcada en la variable
-        if (other.TryGetComponent(out playerController))
-        {
-            //si lo consigue recuperar el compoonente aplicamos el efecto de flash
-            playerController.StartColorFlash(flashColor, flashTime);
-        }
-    }
-    //private void OnTriggerEnter2D(Collider col)
-    //{
-    //    //Compruba si el item colisiona con algo con el tag Player
-    //    if (col.CompareTag("Player"))
-    //    {
-    //        // el item es destruido
-    //        Destroy(gameObject);
-    //    }
-    //}
+    } 
+    
 
 }

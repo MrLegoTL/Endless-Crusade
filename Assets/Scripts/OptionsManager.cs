@@ -23,12 +23,19 @@ public class OptionsManager : MonoBehaviour
         }
         
     }
+    /// <summary>
+    /// Metodo que cambia el volumen con el slider
+    /// </summary>
     public void ChangeVolumen()
     {
         float newVolumen = musicSlider.value;
         SetVolumen(newVolumen);
 
     }
+    /// <summary>
+    /// metodo para obteenr el volumen
+    /// </summary>
+    /// <param name="volumen"></param>
     private void SetVolumen(float volumen)
     {
        MusicManager.instance.audioSource.volume = volumen;

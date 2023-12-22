@@ -162,8 +162,8 @@ MonoBehaviour:
   playerDistanceX: 0
   playerDistanceY: 0
   secondAttackManager: {fileID: 3412153267830037473}
-  secondAttackArea: 0
-  secondAttackDamage: 0
+  secondAttackArea: 0.2
+  secondAttackDamage: 10
 --- !u!212 &2301774931309950189
 SpriteRenderer:
   m_ObjectHideFlags: 0

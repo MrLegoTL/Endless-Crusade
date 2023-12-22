@@ -58,23 +58,15 @@ public class MusicManager : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// corrutina que cambia de clip al cambiar la escena
+    /// </summary>
+    /// <param name="clip"></param>
+    /// <returns></returns>
     public IEnumerator ChangeClip(AudioClip clip)
     {
 
-        ////usaremos el contador con la mitad del tiempo, ya que deberemos hacer el fundido de salida y de entrada.
-        //float counter = fadeTime / 2;
-        //while (counter > 0)
-        //{
-        //    Debug.Log(OptionsManager.instance.musicSlider.value);
-
-        //    //vamos reduciendo el volumen
-        //    audioSource.volume = counter / OptionsManager.instance.musicSlider.value;
-        //    Debug.Log(audioSource.volume);
-        //    //reducimos el contador
-        //    counter -= Time.deltaTime;
-        //    yield return null;
-        //}
+       
 
         ////relizamos el cambio de clip al que recibimos como parametro
         audioSource.clip = clip;
@@ -82,15 +74,7 @@ public class MusicManager : MonoBehaviour
         audioSource.Play();
         yield return null;
 
-        //while (counter < fadeTime / 2)
-        //{
-
-        //    audioSource.volume = counter / OptionsManager.instance.musicSlider.value;
-            
-        //    counter += Time.deltaTime;
-
-        //    yield return null;
-        //}
+        
     }
     
 }

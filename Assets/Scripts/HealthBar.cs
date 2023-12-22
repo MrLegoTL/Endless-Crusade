@@ -11,17 +11,26 @@ public class HealthBar : MonoBehaviour
     {
         slider = GetComponent<Slider>();
     }
-
-   public void ChangedMaxHealth(float maxHealth)
+    /// <summary>
+    /// Establece el valor máximo de salud para la barra de salud.
+    /// </summary>
+    /// <param name="maxHealth"></param>
+    public void ChangedMaxHealth(float maxHealth)
     {
         slider.maxValue = maxHealth;
     }
-
+    /// <summary>
+    /// Establece el valor actual de salud para la barra de salud.
+    /// </summary>
+    /// <param name="currentHealth"></param>
     public void ChangedCurrentHealth(float currentHealth)
     {
         slider.value = currentHealth;
     }
-
+    /// <summary>
+    /// Inicializa la barra de salud con valores máximos y actuales.
+    /// </summary>
+    /// <param name="currentHealth"></param>
     public void InitializeHealthBar( float currentHealth)
     {
         ChangedMaxHealth(currentHealth);

@@ -134,7 +134,10 @@ public class Enemy : MonoBehaviour
             }
       }
     }
-    // Método para obtener la dirección desde la que se realizó el ataque
+    /// <summary>
+    /// Método para obtener la dirección desde la que se realizó el ataque
+    /// </summary>
+    /// <returns></returns>
     float GetDirectionFromHit()
     {
         float direction = 0f;
@@ -164,16 +167,7 @@ public class Enemy : MonoBehaviour
         
 
     }
-    /// <summary>
-    /// Metoddo para desactivar el collider del enemigo cuando muere
-    /// </summary>
-    //void DisableColliderEnemy()
-    //{
-    //    if(enemyCollider != null)
-    //    {
-    //        enemyCollider.enabled = false;
-    //    }
-    //}
+    
     /// <summary>
     /// Metodo con el que el enemigo mira al player
     /// </summary>
@@ -198,15 +192,7 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(secondAttackManager.position, secondAttackArea);
     }
 
-    //private IEnumerator SetInvincible()
-    //{
-       
-    //    isInvincible = true;
-    //    Debug.Log("es invencible");
-    //    yield return new WaitForSeconds(timeInvincible);
-    //    isInvincible = false;
-    //    Debug.Log("deja de invencible");
-    //}
+    
 
 
 }

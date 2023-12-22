@@ -21,7 +21,9 @@ public class PostPorcessingManager : MonoBehaviour
         _postProcessVolume.profile.TryGetSettings(out _bloom);
 
     }
-  
+  /// <summary>
+  /// Metodo para actiavar los efectos de Post Processing 
+  /// </summary>
     public void ActivePowerPostProcess()
     {
         //Chromatic Aberration
@@ -37,6 +39,9 @@ public class PostPorcessingManager : MonoBehaviour
 
 
     }
+    /// <summary>
+    /// Metodo para desactivar los efectos de Post Processing 
+    /// </summary>
 
     public void DesactivePowerPostProcess()
     {
@@ -44,7 +49,9 @@ public class PostPorcessingManager : MonoBehaviour
         _chromaticAberration.intensity.value = 0;
         _bloom.active = false;
     }
-    
+    /// <summary>
+    /// Metodo para activar los efectos de Post Processing 
+    /// </summary>
     public void ActiveImmunityPostProcess()
     {
         //Chromatic Aberration
@@ -58,13 +65,18 @@ public class PostPorcessingManager : MonoBehaviour
         _bloom.anamorphicRatio.value = 1f;
         _bloom.color.value = new Color(0.06f, 0.6f, 0.8f, 1);
     }
-
+    /// <summary>
+    /// Metodo para desactivar  los efectos de Post Processing 
+    /// </summary>
     public void DesactiveImmunityPostProcess()
     {
         _chromaticAberration.active = false;
         _chromaticAberration.intensity.value = 0;
         _bloom.active = false;
     }
+    /// <summary>
+    /// Metodo para activar los efectos de Post Processing 
+    /// </summary>
     public void ActiveSoulPostProcess()
     {
         //Chromatic Aberration
@@ -78,7 +90,9 @@ public class PostPorcessingManager : MonoBehaviour
         _bloom.anamorphicRatio.value = 1f;
         _bloom.color.value = new Color(0.75f, 0.7f, 0.3f, 1);
     }
-
+    /// <summary>
+    /// Metodo para desactivar los efectos de Post Processing 
+    /// </summary>
     public void DesactiveSoulPostProcess()
     {
         _chromaticAberration.active = false;
